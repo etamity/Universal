@@ -5,8 +5,8 @@
  * This source code is licensed under the license found in the LICENSE file in
  * the root directory of this source tree.
  */
-import * as AJAX      from 'app/utils/AJAX';
-import encodeFormData from 'app/utils/encodeFormData';
+import * as AJAX      from 'App/Lib/Utils/AJAX';
+import encodeFormData from 'App/Lib/Utils/encodeFormData';
 import Parse          from 'parse/react-native';
 
 function setEnablePushSource(setting, enable) {
@@ -139,7 +139,41 @@ export default class ParseApp {
       return Parse.Promise.as(source);
     });
   }
-
+  getServerInfo() {
+    let app = {};
+    return this.apiRequest(
+      'GET',
+      'serverInfo',
+      {},
+      { useMasterKey: true }
+    ).then(serverInfo => {
+      app = serverInfo;
+      return app;
+    }, error => {
+      if (error.code === 100) {
+        app = {
+          error: 'unable to connect to server',
+          enabledFeatures: {},
+          parseServerVersion: "unknown"
+        }
+        return Parse.Promise.as(app);
+      } else if (error.code === 107) {
+        app = {
+          error: 'server version too low',
+          enabledFeatures: {},
+          parseServerVersion: "unknown"
+        }
+        return Parse.Promise.as(app);
+      } else {
+        app = {
+          error: error.message || 'unknown error',
+          enabledFeatures: {},
+          parseServerVersion: "unknown"
+        }
+        return Parse.Promise.as(app);
+      }
+    });
+  }
   getLatestRelease() {
     // Cache it for a minute
     if (new Date() - this.latestRelease.lastFetched < 60000) {

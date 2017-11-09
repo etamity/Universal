@@ -1,5 +1,5 @@
 import { StackNavigator } from 'react-navigation'
-import LaunchScreen from '../Containers/LaunchScreen'
+import LaunchScreen from '../Screens/LaunchScreen'
 
 import styles from './Styles/NavigationStyles'
 
