@@ -1,7 +1,7 @@
 // Simple React Native specific changes
 import '../I18n/I18n'
 import Config from 'react-native-config'
-
+import { Platform } from 'react-native';
 export default {
   // font scaling override - RN default is on
   allowTextFontScaling: true
@@ -21,14 +21,16 @@ export const ParseConfig = {
 export const SocialConfig = {
   twitter: {
     consumer_key: Config.TWITTER_APP_ID,
-    consumer_secret: Config.TWITTER_APP_SECRET
+    consumer_secret: Config.TWITTER_APP_SECRET,
+    callback_url: (Platform.OS === 'ios') ? "wevotetwitterscheme://twitter_sign_in" : "http://localhost/twitter" 
   },
   facebook: {
     client_id: Config.FACEBOOK_APP_ID,
-    client_secret: Config.FACEBOOK_APP_SECRET
+    client_secret: Config.FACEBOOK_APP_SECRET,
+    callback_url: `fb${Config.FACEBOOK_APP_ID}://authorize`,
   },
   google: {
     callback_url: Config.GOOGLE_CALLBACK_URL,
-    client_id: Config.GOOGLE_CLIENT_ID
+    client_id: Config.GOOGLE_CLIENT_ID,
   }
 }

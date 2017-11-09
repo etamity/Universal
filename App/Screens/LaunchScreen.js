@@ -9,11 +9,14 @@ import styles from './Styles/LaunchScreenStyles'
 import { Fonts, Colors, Metrics } from 'App/Themes/'
 
 import Shared from 'App/Lib/Shared'
-
+import Parse          from 'parse/react-native';
 export default class LaunchScreen extends Component {
-  componentDidMount() {
-    Shared.App.loginWithSocial();
-
+  constructor(props) {
+    super(props);
+    this.doSocialLogin = this.doSocialLogin.bind(this);
+  }
+  doSocialLogin(type) {
+    Shared.App.loginWithSocial(type);
   }
   render () {
 
@@ -30,13 +33,13 @@ export default class LaunchScreen extends Component {
             </Text>
           </View>
           <View>
-            <SocialButton type="facebook">
+            <SocialButton type="facebook" onPress={ e => this.doSocialLogin('facebook')}>
               Login With Facebook
             </SocialButton>
-            <SocialButton type="twitter">
+            <SocialButton type="twitter" onPress={ e => this.doSocialLogin('twitter')}>
               Login With Twitter
             </SocialButton>
-            <SocialButton type="google">
+            <SocialButton type="google" onPress={ e => this.doSocialLogin('google')}>
               Login With Google
             </SocialButton>
           </View>

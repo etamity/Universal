@@ -67,7 +67,7 @@ export default class ParseApp {
     this.description = description;
     if (socialConfig) {
       this.socialManager = new OAuthManager('Universal')
-      socialManager.configure(socialConfig);
+      this.socialManager.configure(socialConfig);
     }
     this.settings = {
       fields: {},
@@ -852,8 +852,29 @@ export default class ParseApp {
     if (!this.socialManager) {
       return;
     }
-    this.socialManager.authorize('google', {scopes: 'profile email'})
-    .then(resp => console.log('Your users ID', resp))
+    let promissions = '';
+    switch (type) {
+      case 'facebook': 
+      promissions = 'public_profile,email user_friends';
+      break;
+      case 'google': 
+      promissions = 'email+profile';
+      break;
+      case 'twitter': 
+      promissions = 'include_email skip_status';
+      break;
+    }
+
+    return this.socialManager.authorize(type, {scopes: promissions})
+    .then(resp => {
+      console.log('Your users ID', resp);
+      this.socialManager
+      .makeRequest('facebook', '/me?fields=id,email,gender')
+      .then(resp => {
+        console.log('Data ->', resp);
+      });
+      return Parse.Promise.as(resp);
+    })
     .catch(err => console.log('There was an error', err));
   }
 }
