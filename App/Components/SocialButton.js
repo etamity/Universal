@@ -40,6 +40,9 @@ export default class SocialButton extends Component {
             case 'twitter':
             buttonStyle = styles.twitterButton;
             break;
+            case 'google':
+            buttonStyle = styles.googleButton;
+            break;
             default:
             buttonStyle = styles.button;
         }

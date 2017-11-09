@@ -24,3 +24,8 @@ storiesOf('SocialButton')
         Login With Twitter
     </SocialButton>
   ))
+  .add('Google Button', () => (
+    <SocialButton type="google">
+        Login With Google
+    </SocialButton>
+  ))

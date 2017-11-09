@@ -12,9 +12,7 @@ import Shared from 'App/Lib/Shared'
 
 export default class LaunchScreen extends Component {
   componentDidMount() {
-    Shared.App.getServerInfo().then(app => {
-      console.log(app);
-    });
+    Shared.App.loginWithSocial();
 
   }
   render () {
@@ -37,6 +35,9 @@ export default class LaunchScreen extends Component {
             </SocialButton>
             <SocialButton type="twitter">
               Login With Twitter
+            </SocialButton>
+            <SocialButton type="google">
+              Login With Google
             </SocialButton>
           </View>
       </ScrollScreen>

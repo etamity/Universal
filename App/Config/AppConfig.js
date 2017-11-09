@@ -1,18 +1,34 @@
 // Simple React Native specific changes
-
 import '../I18n/I18n'
+import Config from 'react-native-config'
+
 export default {
   // font scaling override - RN default is on
   allowTextFontScaling: true
 }
 export const ParseConfig = {
-  serverURL: 'https://parseapi.back4app.com/',
-  appId: 'BfykOdTLxbKo1MB79YqvTT2XFSbhzPqOUYBTClCr',
-  masterKey: 'b7gTAOGHAmEQc2FoAOhJeo3zf0rTIg1bRb5dUqfO',
-  restKey: 'ZcbUIOvxVgY2L3X3S4ITgmyGT2rCGFzdyYoeE0n0',
-  javascriptKey: 'YuBxowNrPNJzi8QcFHlxQPJNTVGifjaJtZg4tQ0s',
-  clientKey: 'bJZveYDz5v03gKLrHWd100jScoakq4jwI22wHExN',
-  apiKey: 'cbc35f9f-16f7-47b0-957d-4b91cce2aa63',
+  serverURL: Config.PARSE_API_URL,
+  appId: Config.PARSE_APP_ID,
+  masterKey: Config.PARSE_MASTER_KEY,
+  restKey: Config.PARSE_REST_API_KEY,
+  javascriptKey: Config.PARSE_JAVASCRIPT_KEY,
+  clientKey: Config.PARSE_CLIENT_KEY,
+  apiKey: Config.PARSE_FILE_KEY,
   appName: 'SwapAnt',
   description: 'Exchange your stuff or skill easily happen.'
+}
+
+export const SocialConfig = {
+  twitter: {
+    consumer_key: Config.TWITTER_APP_ID,
+    consumer_secret: Config.TWITTER_APP_SECRET
+  },
+  facebook: {
+    client_id: Config.FACEBOOK_APP_ID,
+    client_secret: Config.FACEBOOK_APP_SECRET
+  },
+  google: {
+    callback_url: Config.GOOGLE_CALLBACK_URL,
+    client_id: Config.GOOGLE_CLIENT_ID
+  }
 }

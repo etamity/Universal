@@ -24,6 +24,10 @@ export default StyleSheet.create({
     ...button,
     backgroundColor: '#1DA1F2'
   },
+  googleButton: {
+    ...button,
+    backgroundColor: '#d34836'
+  },
   icon: {
     textAlign: 'center',
     fontSize: Fonts.size.input,

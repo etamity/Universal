@@ -8,6 +8,7 @@
 import * as AJAX      from 'App/Lib/Utils/AJAX';
 import encodeFormData from 'App/Lib/Utils/encodeFormData';
 import Parse          from 'parse/react-native';
+import OAuthManager   from 'react-native-oauth';
 
 function setEnablePushSource(setting, enable) {
   let path = `/apps/${this.slug}/update_push_notifications`;
@@ -40,8 +41,8 @@ export default class ParseApp {
     production,
     iconName,
     feedbackEmail,
-    description
-  }) {
+    description,
+  }, socialConfig) {
     this.name = appName;
     this.feedbackEmail = feedbackEmail;
     this.createdAt = created_at ? new Date(created_at) : new Date();
@@ -64,7 +65,10 @@ export default class ParseApp {
     this.serverInfo = serverInfo;
     this.icon = iconName;
     this.description = description;
-
+    if (socialConfig) {
+      this.socialManager = new OAuthManager('Universal')
+      socialManager.configure(socialConfig);
+    }
     this.settings = {
       fields: {},
       lastFetched: new Date(0)
@@ -842,5 +846,14 @@ export default class ParseApp {
       );
     });
     return promise;
+  }
+
+  loginWithSocial(type) {
+    if (!this.socialManager) {
+      return;
+    }
+    this.socialManager.authorize('google', {scopes: 'profile email'})
+    .then(resp => console.log('Your users ID', resp))
+    .catch(err => console.log('There was an error', err));
   }
 }
