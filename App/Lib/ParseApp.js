@@ -869,7 +869,7 @@ export default class ParseApp {
     .then(resp => {
       console.log('Your users ID', resp);
       this.socialManager
-      .makeRequest('facebook', '/me?fields=id,email,gender')
+      .makeRequest('facebook', '/me?fields=id,email,gendergi')
       .then(resp => {
         console.log('Data ->', resp);
       });
