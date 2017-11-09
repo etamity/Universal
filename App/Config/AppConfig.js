@@ -6,6 +6,9 @@ export default {
   // font scaling override - RN default is on
   allowTextFontScaling: true
 }
+
+console.log(Config);
+
 export const ParseConfig = {
   serverURL: Config.PARSE_API_URL,
   appId: Config.PARSE_APP_ID,
@@ -21,13 +24,11 @@ export const ParseConfig = {
 export const SocialConfig = {
   twitter: {
     consumer_key: Config.TWITTER_APP_ID,
-    consumer_secret: Config.TWITTER_APP_SECRET,
-    callback_url: (Platform.OS === 'ios') ? "wevotetwitterscheme://twitter_sign_in" : "http://localhost/twitter" 
+    consumer_secret: Config.TWITTER_APP_SECRET
   },
   facebook: {
     client_id: Config.FACEBOOK_APP_ID,
-    client_secret: Config.FACEBOOK_APP_SECRET,
-    callback_url: `fb${Config.FACEBOOK_APP_ID}://authorize`,
+    client_secret: Config.FACEBOOK_APP_SECRET
   },
   google: {
     callback_url: Config.GOOGLE_CALLBACK_URL,

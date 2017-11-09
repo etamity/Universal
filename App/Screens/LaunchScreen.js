@@ -17,6 +17,15 @@ export default class LaunchScreen extends Component {
   }
   doSocialLogin(type) {
     Shared.App.loginWithSocial(type);
+    // Parse.FacebookUtils.logIn("user_likes,email", {
+    //   success: function(user) {
+    //     console.log(user);
+    //     // Handle successful login
+    //   },
+    //   error: function(user, error) {
+    //     // Handle errors and cancellation
+    //   }
+    // });
   }
   render () {
 

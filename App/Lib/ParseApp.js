@@ -8,7 +8,7 @@
 import * as AJAX      from 'App/Lib/Utils/AJAX';
 import encodeFormData from 'App/Lib/Utils/encodeFormData';
 import Parse          from 'parse/react-native';
-import OAuthManager   from 'react-native-oauth';
+import OAuthManager   from './OAuthManager';
 
 function setEnablePushSource(setting, enable) {
   let path = `/apps/${this.slug}/update_push_notifications`;
@@ -66,8 +66,7 @@ export default class ParseApp {
     this.icon = iconName;
     this.description = description;
     if (socialConfig) {
-      this.socialManager = new OAuthManager('Universal')
-      this.socialManager.configure(socialConfig);
+        OAuthManager.configure(socialConfig);
     }
     this.settings = {
       fields: {},
@@ -849,13 +848,11 @@ export default class ParseApp {
   }
 
   loginWithSocial(type) {
-    if (!this.socialManager) {
-      return;
-    }
     let promissions = '';
     switch (type) {
       case 'facebook': 
-      promissions = 'public_profile,email user_friends';
+      case 'facebookv2': 
+      promissions = 'public_profile,email,user_friends';
       break;
       case 'google': 
       promissions = 'email+profile';
@@ -865,11 +862,11 @@ export default class ParseApp {
       break;
     }
 
-    return this.socialManager.authorize(type, {scopes: promissions})
+    return OAuthManager.authorize(type, {scopes: promissions})
     .then(resp => {
       console.log('Your users ID', resp);
-      this.socialManager
-      .makeRequest('facebook', '/me?fields=id,email,gendergi')
+      OAuthManager
+      .makeRequest('facebook', '/oauth/access_token')
       .then(resp => {
         console.log('Data ->', resp);
       });
