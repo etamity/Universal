@@ -5,10 +5,10 @@
  * This source code is licensed under the license found in the LICENSE file in
  * the root directory of this source tree.
  */
-import * as AJAX      from 'App/Lib/Utils/AJAX';
+import * as AJAX from 'App/Lib/Utils/AJAX';
 import encodeFormData from 'App/Lib/Utils/encodeFormData';
-import Parse          from 'parse/react-native';
-import OAuthManager   from './OAuthManager';
+import Parse from 'parse/react-native';
+import OAuthManager from './OAuthManager';
 
 function setEnablePushSource(setting, enable) {
   let path = `/apps/${this.slug}/update_push_notifications`;
@@ -59,14 +59,15 @@ export default class ParseApp {
     this.restKey = restKey;
     this.windowsKey = windowsKey;
     this.webhookKey = webhookKey;
-    this.fileKey =  apiKey;
+    this.fileKey = apiKey;
     this.production = production;
     this.serverURL = serverURL;
     this.serverInfo = serverInfo;
     this.icon = iconName;
     this.description = description;
     if (socialConfig) {
-        OAuthManager.configure(socialConfig);
+      this.socialConfig = socialConfig
+      OAuthManager.configure(socialConfig);
     }
     this.settings = {
       fields: {},
@@ -109,7 +110,7 @@ export default class ParseApp {
    * since - only fetch lines since this Date
    */
   getLogs(level, since) {
-    let path = 'scriptlog?level=' + encodeURIComponent(level.toLowerCase()) + '&n=100' + (since?'&startDate=' + encodeURIComponent(since.getTime()):'');
+    let path = 'scriptlog?level=' + encodeURIComponent(level.toLowerCase()) + '&n=100' + (since ? '&startDate=' + encodeURIComponent(since.getTime()) : '');
     return this.apiRequest('GET', path, {}, { useMasterKey: true });
   }
 
@@ -300,7 +301,7 @@ export default class ParseApp {
   getAnalyticsTimeSeries(query) {
     let path = '/apps/' + this.slug + '/analytics?' + encodeFormData(null, query);
     let { promise, xhr } = AJAX.abortableGet(path);
-    promise = promise.then(( requested_data ) => requested_data);
+    promise = promise.then((requested_data) => requested_data);
     return { promise, xhr };
   }
 
@@ -337,14 +338,14 @@ export default class ParseApp {
 
   uploadSSLPublicCertificate(file) {
     let path = '/apps/' + this.slug + '/update_hosting_certificates';
-    let data= new FormData();
+    let data = new FormData();
     data.append('new_hosting_certificate[certificate_data]', file);
     return AJAX.put(path, data);
   }
 
   uploadSSLPrivateKey(file) {
     let path = '/apps/' + this.slug + '/update_hosting_certificates';
-    let data= new FormData();
+    let data = new FormData();
     data.append('new_hosting_certificate[key_data]', file);
     return AJAX.put(path, data);
   }
@@ -408,7 +409,7 @@ export default class ParseApp {
     });
   }
 
-  importRelationData(className, relationName,  file) {
+  importRelationData(className, relationName, file) {
     let path = this.normalizePath(this.serverURL + '/import_relation_data/' + className + '/' + relationName);
     var formData = new FormData();
     formData.append('importFile', file);
@@ -459,7 +460,7 @@ export default class ParseApp {
   fetchPushSubscriberCount(audienceId, query) {
     let path = '/apps/' + this.slug + '/dashboard_ajax/push_subscriber_count';
     let urlsSeparator = '?';
-    if (query){
+    if (query) {
       path += `?where=${encodeURI(JSON.stringify(query))}`;
       urlsSeparator = '&';
     }
@@ -471,7 +472,7 @@ export default class ParseApp {
     if (type != 'all') {
       query.equalTo('source', type || 'rest');
     }
-    query.skip(page*limit);
+    query.skip(page * limit);
     query.limit(limit);
     query.descending('createdAt');
     return query.find({ useMasterKey: true });
@@ -527,12 +528,12 @@ export default class ParseApp {
 
   addCollaborator(email) {
     let path = '/apps/' + this.slug + '/collaborations';
-    let promise = AJAX.post(path, {'collaboration[email]': email});
+    let promise = AJAX.post(path, { 'collaboration[email]': email });
     promise.then(({ data }) => {
       //TODO: this currently works because everything that uses collaborators
       // happens to re-render after this call anyway, but really the collaborators
       // should be updated properly in a store or AppsManager or something
-      this.settings.fields.fields.collaborators = 
+      this.settings.fields.fields.collaborators =
         Array.isArray(this.settings.fields.fields.collaborators) ?
           this.settings.fields.fields.collaborators : [];
       this.settings.fields.fields.collaborators.unshift(data);
@@ -552,7 +553,7 @@ export default class ParseApp {
 
   setAppName(name) {
     let path = '/apps/' + this.slug;
-    let promise = AJAX.put(path, {'parse_app[name]': name});
+    let promise = AJAX.put(path, { 'parse_app[name]': name });
     promise.then(() => {
       this.name = name;
     });
@@ -561,16 +562,16 @@ export default class ParseApp {
 
   setAppStoreURL(type, url) {
     let path = '/apps/' + this.slug;
-    let promise = AJAX.put(path, {['parse_app[parse_app_metadata][url][' + type + ']']: url});
+    let promise = AJAX.put(path, { ['parse_app[parse_app_metadata][url][' + type + ']']: url });
     promise.then(() => {
-      this.settings.fields.fields.urls.unshift({platform: type, url: url});
+      this.settings.fields.fields.urls.unshift({ platform: type, url: url });
     });
     return promise;
   }
 
   setInProduction(inProduction) {
     let path = '/apps/' + this.slug;
-    let promise = AJAX.put(path, {'parse_app[parse_app_metadata][production]': inProduction ? 'true' : 'false'});
+    let promise = AJAX.put(path, { 'parse_app[parse_app_metadata][production]': inProduction ? 'true' : 'false' });
     promise.then(() => {
       this.production = inProduction;
     });
@@ -591,12 +592,12 @@ export default class ParseApp {
       name: className,
       where: where,
       feedbackEmail: this.feedbackEmail
-    }, {useMasterKey:true});
+    }, { useMasterKey: true });
   }
 
   getExportProgress() {
     let path = 'export_progress';
-    return this.apiRequest('GET', path, {}, {useMasterKey:true});
+    return this.apiRequest('GET', path, {}, { useMasterKey: true });
   }
 
   getAvailableJobs() {
@@ -650,12 +651,12 @@ export default class ParseApp {
   beginMigration(connectionString) {
     this.hasCheckedForMigraton = false;
     let path = '/apps/' + this.slug + '/migrations';
-    return AJAX.post(path, {connection_string: connectionString});
+    return AJAX.post(path, { connection_string: connectionString });
   }
 
   changeConnectionString(newConnectionString) {
     let path = '/apps/' + this.slug + '/change_connection_string';
-    let promise = AJAX.post(path, {connection_string: newConnectionString});
+    let promise = AJAX.post(path, { connection_string: newConnectionString });
     promise.then(() => {
       this.settings.fields.fields.opendb_connection_string = newConnectionString;
     });
@@ -677,7 +678,7 @@ export default class ParseApp {
 
   setRequireRevocableSessions(require) {
     let path = '/apps/' + this.slug;
-    let promise = AJAX.put(path, {'parse_app[require_revocable_session]': require ? 'true' : 'false'});
+    let promise = AJAX.put(path, { 'parse_app[require_revocable_session]': require ? 'true' : 'false' });
     promise.then(() => {
       //TODO: this currently works because everything that uses this
       // happens to re-render after this call anyway, but really this
@@ -689,7 +690,7 @@ export default class ParseApp {
 
   setExpireInactiveSessions(require) {
     let path = '/apps/' + this.slug;
-    let promise = AJAX.put(path, {'parse_app[expire_revocable_session]': require ? 'true' : 'false'});
+    let promise = AJAX.put(path, { 'parse_app[expire_revocable_session]': require ? 'true' : 'false' });
     promise.then(() => {
       //TODO: this currently works because everything that uses this
       // happens to re-render after this call anyway, but really this
@@ -701,7 +702,7 @@ export default class ParseApp {
 
   setRevokeSessionOnPasswordChange(require) {
     let path = '/apps/' + this.slug;
-    let promise = AJAX.put(path, {'parse_app[revoke_on_password_reset]': require ? 'true' : 'false'});
+    let promise = AJAX.put(path, { 'parse_app[revoke_on_password_reset]': require ? 'true' : 'false' });
     promise.then(() => {
       //TODO: this currently works because everything that uses this
       // happens to re-render after this call anyway, but really this
@@ -713,7 +714,7 @@ export default class ParseApp {
 
   setEnableNewMethodsByDefault(require) {
     let path = '/apps/' + this.slug;
-    let promise = AJAX.put(path, {'parse_app[auth_options_attributes][_enable_by_default_as_bool]': require ? 'true' : 'false'});
+    let promise = AJAX.put(path, { 'parse_app[auth_options_attributes][_enable_by_default_as_bool]': require ? 'true' : 'false' });
     promise.then(() => {
       //TODO: this currently works because everything that uses this
       // happens to re-render after this call anyway, but really this
@@ -725,7 +726,7 @@ export default class ParseApp {
 
   setAllowUsernameAndPassword(require) {
     let path = '/apps/' + this.slug;
-    let promise = AJAX.put(path, {'parse_app[auth_options_attributes][username_attributes][enabled_as_bool]': require ? 'true' : 'false'});
+    let promise = AJAX.put(path, { 'parse_app[auth_options_attributes][username_attributes][enabled_as_bool]': require ? 'true' : 'false' });
     promise.then(() => {
       //TODO: this currently works because everything that uses this
       // happens to re-render after this call anyway, but really this
@@ -737,7 +738,7 @@ export default class ParseApp {
 
   setAllowAnonymousUsers(require) {
     let path = '/apps/' + this.slug;
-    let promise = AJAX.put(path, {'parse_app[auth_options_attributes][anonymous_attributes][enabled_as_bool]': require ? 'true' : 'false'});
+    let promise = AJAX.put(path, { 'parse_app[auth_options_attributes][anonymous_attributes][enabled_as_bool]': require ? 'true' : 'false' });
     promise.then(() => {
       //TODO: this currently works because everything that uses this
       // happens to re-render after this call anyway, but really this
@@ -749,7 +750,7 @@ export default class ParseApp {
 
   setAllowCustomAuthentication(require) {
     let path = '/apps/' + this.slug;
-    let promise = AJAX.put(path, {'parse_app[auth_options_attributes][custom_attributes][enabled_as_bool]': require ? 'true' : 'false'});
+    let promise = AJAX.put(path, { 'parse_app[auth_options_attributes][custom_attributes][enabled_as_bool]': require ? 'true' : 'false' });
     promise.then(() => {
       //TODO: this currently works because everything that uses this
       // happens to re-render after this call anyway, but really this
@@ -837,7 +838,7 @@ export default class ParseApp {
   }
 
   deleteGCMPushCredentials(GCMSenderID) {
-    let path = '/apps/' + this.slug + '/delete_gcm_push_credential?gcm_sender_id='+GCMSenderID;
+    let path = '/apps/' + this.slug + '/delete_gcm_push_credential?gcm_sender_id=' + GCMSenderID;
     let promise = AJAX.get(path);
     promise.then(() => {
       this.settings.fields.fields.gcm_credentials = this.settings.fields.fields.gcm_credentials.filter(cred =>
@@ -846,32 +847,66 @@ export default class ParseApp {
     });
     return promise;
   }
-
+  logoutSocial(type) {
+    OAuthManager.deauthorize(type);
+  }
   loginWithSocial(type) {
     let promissions = '';
     switch (type) {
-      case 'facebook': 
-      case 'facebookv2': 
-      promissions = 'public_profile,email,user_friends';
-      break;
-      case 'google': 
-      promissions = 'email+profile';
-      break;
-      case 'twitter': 
-      promissions = 'include_email skip_status';
-      break;
+      case 'facebook':
+        promissions = 'public_profile,email,user_friends';
+        break;
+      case 'google':
+        promissions = 'email+profile';
+        break;
+      case 'twitter':
+        promissions = 'include_email skip_status';
+        break;
     }
-
-    return OAuthManager.authorize(type, {scopes: promissions})
-    .then(resp => {
-      console.log('Your users ID', resp);
-      OAuthManager
-      .makeRequest('facebook', '/oauth/access_token')
+    return OAuthManager.authorize(type, { scopes: promissions })
       .then(resp => {
-        console.log('Data ->', resp);
-      });
-      return Parse.Promise.as(resp);
-    })
-    .catch(err => console.log('There was an error', err));
+        console.log('Your users ID', resp);
+        const fbConfig = this.socialConfig.facebook;
+        return OAuthManager
+          .makeRequest('facebook', '/oauth/access_token', {
+            params: {
+              redirect_uri: fbConfig.callback_url,
+              client_id: fbConfig.client_id,
+              client_secret: fbConfig.client_secret,
+              fb_exchange_token: resp.response.credentials.accessToken,
+              grant_type: 'fb_exchange_token',
+            }
+          })
+          .then(resp => {
+            const credentials = resp.data;
+            return OAuthManager.makeRequest('facebook', '/me?fields=id,name,email,gender').then(resp => {
+              console.log('Me ->', resp);
+              let expdate = new Date(credentials.expires_in);
+              expdate = expdate.toISOString();
+              let authData = {
+                id: resp.data.id,
+                access_token: credentials.access_token,
+                expiration_date: expdate
+              };
+              const data = Object.assign({}, {authData: authData, user: resp.data} );
+
+              Parse.FacebookUtils.logIn(authData, {
+                success: function(user) {
+                  if (!user.existed()) {
+                    console.log("User signed up and logged in through Facebook!");
+                  } else {
+                    console.log("User logged in through Facebook!");
+                  }
+                },
+                error: function(user, error) {
+                  console.log(user,error);
+                  console.log("User cancelled the Facebook login or did not fully authorize.");
+                }
+              });
+              return Parse.Promise.as(data);
+            })
+          });
+      })
+      .catch(err => console.log('There was an error', err));
   }
 }
