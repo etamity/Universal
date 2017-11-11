@@ -29,7 +29,8 @@ export const SocialConfig = {
   },
   facebook: {
     client_id: Config.FACEBOOK_APP_ID,
-    client_secret: Config.FACEBOOK_APP_SECRET
+    client_secret: Config.FACEBOOK_APP_SECRET,
+    callback_url: `fb${Config.FACEBOOK_APP_ID}://authorize`
   },
 
   google: {
