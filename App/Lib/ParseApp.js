@@ -97,7 +97,7 @@ export default class ParseApp {
   setParseKeys() {
     Parse.serverURL = this.serverURL;
     Parse._initialize(this.applicationId, this.javascriptKey, this.masterKey);
-    //registerOAuthProvider();
+    registerOAuthProvider();
   }
 
   apiRequest(method, path, params, options) {
@@ -860,73 +860,73 @@ export default class ParseApp {
   loginWithSocial(type) {
     this.logoutSocial(type);
     const facebookResponse = (resp) => {
-      // console.log('facebookResponse', resp);
-      // let options = {
-      //   facebook: this.socialConfig.facebook,
-      //   credentials: {
-      //     accessToken: resp.response.credentials.accessToken
-      //   }
-      // }
-      // Parse.User.logInWith('facebook', options).then(function(user){
-      //   console.log(user);
-      //   if (!user.existed()) {
-      //     console.log("User signed up and logged in facebook!");
-      //   }
-      // });
+      console.log('facebookResponse', resp);
+      let options = {
+        facebook: this.socialConfig.facebook,
+        credentials: {
+          accessToken: resp.response.credentials.accessToken
+        }
+      }
+      Parse.User.logInWith('facebook', options).then(function(user){
+        console.log(user);
+        if (!user.existed()) {
+          console.log("User signed up and logged in facebook!");
+        }
+      });
 
-      const fbConfig = this.socialConfig.facebook;
-      return OAuthManager
-        .makeRequest('facebook', '/oauth/access_token', {
-          params: {
-            redirect_uri: fbConfig.callback_url,
-            client_id: fbConfig.client_id,
-            client_secret: fbConfig.client_secret,
-            fb_exchange_token: resp.response.credentials.accessToken,
-            grant_type: 'fb_exchange_token',
-          }
-        })
-        .then(resp => {
-          const credentials = resp.data;
-          return OAuthManager.makeRequest('facebook', '/me?fields=id,name,email,gender').then(resp => {
-            console.log('Me ->', resp);
-            let expdate = new Date(credentials.expires_in);
-            expdate = expdate.toISOString();
-            let authData = {
-              id: resp.data.id,
-              access_token: credentials.access_token,
-              expiration_date: expdate
-            };
-            const data = Object.assign({}, { authData: authData, user: resp.data });
+      // const fbConfig = this.socialConfig.facebook;
+      // return OAuthManager
+      //   .makeRequest('facebook', '/oauth/access_token', {
+      //     params: {
+      //       redirect_uri: fbConfig.callback_url,
+      //       client_id: fbConfig.client_id,
+      //       client_secret: fbConfig.client_secret,
+      //       fb_exchange_token: resp.response.credentials.accessToken,
+      //       grant_type: 'fb_exchange_token',
+      //     }
+      //   })
+      //   .then(resp => {
+      //     const credentials = resp.data;
+      //     return OAuthManager.makeRequest('facebook', '/me?fields=id,name,email,gender').then(resp => {
+      //       console.log('Me ->', resp);
+      //       let expdate = new Date(credentials.expires_in);
+      //       expdate = expdate.toISOString();
+      //       let authData = {
+      //         id: resp.data.id,
+      //         access_token: credentials.access_token,
+      //         expiration_date: expdate
+      //       };
+      //       const data = Object.assign({}, { authData: authData, user: resp.data });
 
-            Parse.FacebookUtils.logIn(authData, {
-              success: function (user) {
-                if (!user.existed()) {
-                  user.set('email', data.user.email);
-                  user.save().then(() => {
-                    console.log("User signed up and logged in through Facebook!");
-                  })
-                } else {
-                  console.log("User logged in through Facebook!");
-                  if (!Parse.FacebookUtils.isLinked(user)) {
-                    Parse.FacebookUtils.link(user, null, {
-                      success: function (user) {
-                        console.log("Woohoo, user logged in with Facebook!");
-                      },
-                      error: function (user, error) {
-                        console.log("User cancelled the Facebook login or did not fully authorize.");
-                      }
-                    });
-                  }
-                }
-              },
-              error: function (user, error) {
-                console.log(user, error);
-                console.log("User cancelled the Facebook login or did not fully authorize.");
-              }
-            });
-            return Parse.Promise.as(data);
-          })
-        });
+      //       Parse.FacebookUtils.logIn(authData, {
+      //         success: function (user) {
+      //           if (!user.existed()) {
+      //             user.set('email', data.user.email);
+      //             user.save().then(() => {
+      //               console.log("User signed up and logged in through Facebook!");
+      //             })
+      //           } else {
+      //             console.log("User logged in through Facebook!");
+      //             if (!Parse.FacebookUtils.isLinked(user)) {
+      //               Parse.FacebookUtils.link(user, null, {
+      //                 success: function (user) {
+      //                   console.log("Woohoo, user logged in with Facebook!");
+      //                 },
+      //                 error: function (user, error) {
+      //                   console.log("User cancelled the Facebook login or did not fully authorize.");
+      //                 }
+      //               });
+      //             }
+      //           }
+      //         },
+      //         error: function (user, error) {
+      //           console.log(user, error);
+      //           console.log("User cancelled the Facebook login or did not fully authorize.");
+      //         }
+      //       });
+      //       return Parse.Promise.as(data);
+      //     })
+      //   });
     }
 
     const twitterResponse = (resp) => {

@@ -121,6 +121,6 @@ var FacebookProvider = {
 
 export function registerOAuthProvider() {
     Parse.User._registerAuthenticationProvider(GoogleProvider);
-    //Parse.User._registerAuthenticationProvider(FacebookProvider);
+    Parse.User._registerAuthenticationProvider(FacebookProvider);
 }
 export default manager;
