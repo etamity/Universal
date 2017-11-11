@@ -8,7 +8,7 @@
 import * as AJAX from 'App/Lib/Utils/AJAX';
 import encodeFormData from 'App/Lib/Utils/encodeFormData';
 import Parse from 'parse/react-native';
-import OAuthManager from './OAuthManager';
+import OAuthManager, { registerOAuthProvider } from './OAuthManager';
 
 function setEnablePushSource(setting, enable) {
   let path = `/apps/${this.slug}/update_push_notifications`;
@@ -97,6 +97,7 @@ export default class ParseApp {
   setParseKeys() {
     Parse.serverURL = this.serverURL;
     Parse._initialize(this.applicationId, this.javascriptKey, this.masterKey);
+    //registerOAuthProvider();
   }
 
   apiRequest(method, path, params, options) {
@@ -848,27 +849,31 @@ export default class ParseApp {
     return promise;
   }
   logoutSocial(type) {
-    OAuthManager.deauthorize(type);
+    OAuthManager.deauthorize(type)
+    .then(resp => {
+      console.log(resp);
+    }).catch(error => {
+      console.log(error);
+    });
     Parse.User.logOut();
   }
   loginWithSocial(type) {
-    let promissions = '';
-    switch (type) {
-      case 'facebook':
-        promissions = 'public_profile,email,user_friends';
-        break;
-      case 'google':
-        promissions = 'email+profile';
-        break;
-      case 'twitter':
-        promissions = 'email profile';
-        break;
-    }
-
+    this.logoutSocial(type);
     const facebookResponse = (resp) => {
-      if (!resp.response.authorized) {
-        return Parse.Promise.as(resp);
-      }
+      // console.log('facebookResponse', resp);
+      // let options = {
+      //   facebook: this.socialConfig.facebook,
+      //   credentials: {
+      //     accessToken: resp.response.credentials.accessToken
+      //   }
+      // }
+      // Parse.User.logInWith('facebook', options).then(function(user){
+      //   console.log(user);
+      //   if (!user.existed()) {
+      //     console.log("User signed up and logged in facebook!");
+      //   }
+      // });
+
       const fbConfig = this.socialConfig.facebook;
       return OAuthManager
         .makeRequest('facebook', '/oauth/access_token', {
@@ -923,19 +928,96 @@ export default class ParseApp {
           })
         });
     }
-    console.log('type', type);
+
+    const twitterResponse = (resp) => {
+      const twConfig = this.socialConfig.twitter;
+      const credentials = resp.response.credentials;
+      return OAuthManager
+        .makeRequest('twitter', 'https://api.twitter.com/1.1/account/verify_credentials.json')
+        .then(resp => {
+          console.log(resp);
+          if (resp.status === 200) {
+            const userData = resp.data;
+            let authData = {
+              id: userData.id,
+              screen_name: userData.screen_name,
+              consumer_key: twConfig.consumer_key,
+              consumer_secret: twConfig.consumer_secret,
+              auth_token: credentials.access_token,
+              auth_token_secret: credentials.access_token_secret
+            };
+            Parse.User.logInWith('twitter', authData).then(function(user){
+              console.log(user);
+              if (!user.existed()) {
+                console.log("User signed up and logged in twitter!");
+              }
+            });
+          }
+
+        })
+      return Parse.Promise.as(resp);
+    }
+    
+    const googleResponse = (resp) => {
+      const ggConfig = this.socialConfig.google;
+      const credentials = resp.response.credentials;
+      return OAuthManager
+        .makeRequest('google', 'https://www.googleapis.com/plus/v1/people/me')
+        .then(resp => {
+          if (resp.status === 200) {
+            console.log(resp);
+            const userData = resp.data;
+            let authData = {
+              id: userData.id,
+              displayName: userData.displayName,
+              accessToken: credentials.accessToken
+            };
+
+            Parse.User.logInWith('google', {
+              success: function (user) {
+                console.log("Woohoo, user logged in with google!", user);
+              },
+              error: function (user, error) {
+                console.log("User cancelled the google login or did not fully authorize." , error);
+              }}).then(user => {
+              console.log(user);
+              if (!user.existed()) {
+                console.log("User signed up and logged in google!");
+              }
+            });
+          }
+        })
+      return Parse.Promise.as(resp);
+    }
+
+    let promissions = '';
+    switch (type) {
+      case 'facebook':
+        promissions = 'public_profile,email,user_friends';
+        break;
+      case 'google':
+        promissions = 'email+profile';
+        break;
+      case 'twitter':
+        promissions = 'email';
+        break;
+    }
+
     return OAuthManager.authorize(type, { scopes: promissions })
       .then(resp => {
+        if (!resp.response.authorized) {
+          return Parse.Promise.as(resp);
+        }
         console.log('Your users ID', type, resp);
         switch (type) {
           case 'facebook':
             return facebookResponse(resp);
             break;
           case 'google':
-            return Parse.Promise.as(resp);
+            return googleResponse(resp);
             break;
           case 'twitter':
-            return Parse.Promise.as(resp);
+            return twitterResponse(resp);
             break;
         }
       })

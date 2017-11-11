@@ -18,15 +18,6 @@ export default class LaunchScreen extends Component {
   }
   doSocialLogin(type) {
     Shared.App.loginWithSocial(type);
-    // Parse.FacebookUtils.logIn("user_likes,email", {
-    //   success: function(user) {
-    //     console.log(user);
-    //     // Handle successful login
-    //   },
-    //   error: function(user, error) {
-    //     // Handle errors and cancellation
-    //   }
-    // });
   }
   doLogout(type) {
     Shared.App.logoutSocial(type);
@@ -41,7 +32,7 @@ export default class LaunchScreen extends Component {
 
           <View style={styles.section} >
             <Image source={Images.ready} />
-            <RoundedButton text="Logout" onPress={ e => this.doLogout('facebook')}/>
+            <RoundedButton text="Logout" onPress={ e => this.doLogout('twitter')}/>
           </View>
           <View>
             <SocialButton type="facebook" onPress={ e => this.doSocialLogin('facebook')}>
