@@ -857,81 +857,25 @@ export default class ParseApp {
       });
     Parse.User.logOut();
   }
+
   loginWithSocial(type) {
     this.logoutSocial(type);
-
-    const twitterResponse = (resp) => {
-      const twConfig = this.socialConfig.twitter;
-      const credentials = resp.response.credentials;
-      return OAuthManager
-        .makeRequest('twitter', 'https://api.twitter.com/1.1/account/verify_credentials.json')
-        .then(resp => {
-          console.log(resp);
-          if (resp.status === 200) {
-            const userData = resp.data;
-            let authData = {
-              id: userData.id,
-              screen_name: userData.screen_name,
-              consumer_key: twConfig.consumer_key,
-              consumer_secret: twConfig.consumer_secret,
-              auth_token: credentials.access_token,
-              auth_token_secret: credentials.access_token_secret
-            };
-            Parse.User.logInWith('twitter', authData).then(function (user) {
-              console.log(user);
-              if (!user.existed()) {
-                console.log("User signed up and logged in twitter!");
-              }
-            });
-          }
-
-        })
-      return Parse.Promise.as(resp);
-    }
-
-    const googleResponse = (resp) => {
-      const ggConfig = this.socialConfig.google;
-      const credentials = resp.response.credentials;
-      return OAuthManager
-        .makeRequest('google', 'https://www.googleapis.com/plus/v1/people/me')
-        .then(resp => {
-          if (resp.status === 200) {
-            console.log(resp);
-            const userData = resp.data;
-            let authData = {
-              id: userData.id,
-              displayName: userData.displayName,
-              accessToken: credentials.accessToken
-            };
-
-            Parse.User.logInWith('google', {
-              success: function (user) {
-                console.log("Woohoo, user logged in with google!", user);
-              },
-              error: function (user, error) {
-                console.log("User cancelled the google login or did not fully authorize.", error);
-              }
-            }).then(user => {
-              console.log(user);
-              if (!user.existed()) {
-                console.log("User signed up and logged in google!");
-              }
-            });
-          }
-        })
-      return Parse.Promise.as(resp);
-    }
     return this._logInWith(type).then((user) => {
-      console.log(user);
       if (!user.existed()) {
-        const email = user.get('authData').facebook.email;
-        user.save({'email': email}).then(() => {
+        const email = user.get('authData')[type].email;
+        if (email) {
+          user.save({ email }).then(() => {
+            console.log(`User signed up and logged in ${type}!`);
+          }).catch(err => console.log('User update error', err));
+        } else {
           console.log(`User signed up and logged in ${type}!`);
-        }).catch(err => console.log('User update error', err));
+        }
+      } else {
+        console.log(`User signed up and logged in ${type}!`);
       }
     }).catch(err => console.log('There was an error', err));
-
   }
+
   _logInWith(type, permissions, options) {
     if (!permissions || typeof permissions === 'string') {
       return Parse.User.logInWith(type, {});

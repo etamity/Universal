@@ -6,25 +6,29 @@ export class FacebookOAuthProvider {
     constructor(manager) {
         this.manager = manager;
     }
+
     authenticate(options) {
        return this.manager.authorize('facebook', { scopes: 'public_profile,email,user_friends' })
          .then(resp => {
-           if (!resp.response.authorized) {
+           if (!resp || !resp.response || !resp.response.authorized) {
              return Parse.Promise.as(resp);
            }
-           const fbConfig = SocialConfig.facebook;
            return this.manager
             .makeRequest('facebook', '/oauth/access_token', {
                 params: {
-                    redirect_uri: fbConfig.callback_url,
-                    client_id: fbConfig.client_id,
-                    client_secret: fbConfig.client_secret,
+                    redirect_uri: SocialConfig.facebook.callback_url,
+                    client_id: SocialConfig.facebook.client_id,
+                    client_secret: SocialConfig.facebook.client_secret,
                     fb_exchange_token: resp.response.credentials.accessToken,
                     grant_type: 'fb_exchange_token',
                 }
             }).then(resp => {
+                if (resp.status !== 200) {
+                    console.log(resp);
+                    return Parse.Promise.as(resp);
+                }
                 const credentials = resp.data;
-                this.manager.makeRequest('facebook', '/me?fields=id,name,email,gender').then(resp => {
+                return this.manager.makeRequest('facebook', '/me?fields=id,name,email,gender').then(resp => {
                     let authData = {
                         id: resp.data.id,
                         access_token: credentials.access_token,
@@ -43,18 +47,8 @@ export class FacebookOAuthProvider {
 
     restoreAuthentication(authData) {
         if (authData) {
-            var expiration = parseDate(authData.expiration_date);
-            var expiresIn = expiration ?
-                (expiration.getTime() - new Date().getTime()) / 1000 :
-                0;
-
-            var authResponse = {
-                userID: authData.id,
-                accessToken: authData.access_token,
-                expiresIn: expiresIn
-            };
-            this.manager.authorize('facebook').then(resp => {
-                if (resp.response.credentials.accessToken !== authData.access_token) {
+            this.manager.makeRequest('facebook', '/me').then(resp => {
+                if (resp.status !== 200 || authData.id !== resp.data.id) {
                     Parse.User.logOut();
                     this.manager.deauthorize('facebook');
                 }
