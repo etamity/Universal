@@ -49,12 +49,11 @@ export class FacebookOAuthProvider {
         if (authData) {
             this.manager.makeRequest('facebook', '/me').then(resp => {
                 if (resp.status !== 200 || authData.id !== resp.data.id) {
-                    Parse.User.logOut();
                     this.manager.deauthorize('facebook');
                 }
             });
+            return true;
         }
-        return true;
     }
 
     getAuthType() {
@@ -62,6 +61,6 @@ export class FacebookOAuthProvider {
     }
 
     deauthenticate() {
-        this.restoreAuthentication(null);
+        Parse.User.logOut();
     }
 };

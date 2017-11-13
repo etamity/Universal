@@ -54,6 +54,6 @@ export class GoogleOAuthProvider {
     }
 
     deauthenticate() {
-        this.restoreAuthentication(null);
+        Parse.User.logOut();
     }
 };

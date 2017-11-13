@@ -42,7 +42,6 @@ export class TwitterOAuthProvider {
         if (authData) {
             this.manager.makeRequest('twitter', 'https://api.twitter.com/1.1/account/verify_credentials.json')
             .then(resp => {
-                console.log(authData.id , resp.data.id_strgit);
                 if (resp.status !== 200 || authData.id !== resp.data.id_strgit) {
                     Parse.User.logOut();
                     this.manager.deauthorize('twitter');
@@ -57,6 +56,6 @@ export class TwitterOAuthProvider {
     }
 
     deauthenticate() {
-        this.restoreAuthentication(null);
+        Parse.User.logOut();
     }
 };

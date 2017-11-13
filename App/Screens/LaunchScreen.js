@@ -19,6 +19,7 @@ export default class LaunchScreen extends Component {
   }
   doSocialLogin(type) {
     Shared.App.loginWithSocial(type).then(user => {
+      console.log('user', user);
       if (user) {
         this.props.navigation.navigate('LoginScreen')
       }
