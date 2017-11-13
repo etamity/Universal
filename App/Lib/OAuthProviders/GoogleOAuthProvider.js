@@ -46,8 +46,8 @@ export class GoogleOAuthProvider {
                     this.manager.deauthorize('google');
                 }
             });
-            return true;
         }
+        return true;
     }
     getAuthType() {
         return 'google';

@@ -47,8 +47,8 @@ export class TwitterOAuthProvider {
                     this.manager.deauthorize('twitter');
                 }
             });
-            return true;
         }
+        return true;
     }
 
     getAuthType() {

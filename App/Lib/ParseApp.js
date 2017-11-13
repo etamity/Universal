@@ -873,6 +873,8 @@ export default class ParseApp {
       } else {
         console.log(`User signed up and logged in ${type}!`);
       }
+      return Parse.Promise.as(user);
+
     }).catch(err => console.log('There was an error', err));
   }
 

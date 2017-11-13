@@ -52,8 +52,8 @@ export class FacebookOAuthProvider {
                     this.manager.deauthorize('facebook');
                 }
             });
-            return true;
         }
+        return true;
     }
 
     getAuthType() {
