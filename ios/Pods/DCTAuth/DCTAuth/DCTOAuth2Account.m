@@ -226,7 +226,7 @@ static const struct DCTOAuth2AccountProperties DCTOAuth2AccountProperties = {
 
 	if (self.shouldSendCallbackURL && callback) {
 		DCTAuthContentItem *item = [[DCTAuthContentItem alloc] initWithName:DCTOAuth2Keys.redirectURI value:callback];
-        [items addObject:item];
+		[items addObject:item];
 	}
 
 	NSArray *extras = [self itemsForRequestType:DCTOAuth2RequestType.accessToken];
