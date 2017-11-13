@@ -8,7 +8,7 @@
 import * as AJAX from 'App/Lib/Utils/AJAX';
 import encodeFormData from 'App/Lib/Utils/encodeFormData';
 import Parse from 'parse/react-native';
-import OAuthManager from './OAuthManager';
+import OAuthManager, { registerOAuthProvider } from './OAuthManager';
 
 function setEnablePushSource(setting, enable) {
   let path = `/apps/${this.slug}/update_push_notifications`;
@@ -97,6 +97,7 @@ export default class ParseApp {
   setParseKeys() {
     Parse.serverURL = this.serverURL;
     Parse._initialize(this.applicationId, this.javascriptKey, this.masterKey);
+    registerOAuthProvider();
   }
 
   apiRequest(method, path, params, options) {
@@ -848,97 +849,45 @@ export default class ParseApp {
     return promise;
   }
   logoutSocial(type) {
-    OAuthManager.deauthorize(type);
+    OAuthManager.deauthorize(type)
+      .then(resp => {
+        console.log(resp);
+      }).catch(error => {
+        console.log(error);
+      });
     Parse.User.logOut();
   }
+
   loginWithSocial(type) {
-    let promissions = '';
-    switch (type) {
-      case 'facebook':
-        promissions = 'public_profile,email,user_friends';
-        break;
-      case 'google':
-        promissions = 'email+profile';
-        break;
-      case 'twitter':
-        promissions = 'email profile';
-        break;
-    }
-
-    const facebookResponse = (resp) => {
-      if (!resp.response.authorized) {
-        return Parse.Promise.as(resp);
-      }
-      const fbConfig = this.socialConfig.facebook;
-      return OAuthManager
-        .makeRequest('facebook', '/oauth/access_token', {
-          params: {
-            redirect_uri: fbConfig.callback_url,
-            client_id: fbConfig.client_id,
-            client_secret: fbConfig.client_secret,
-            fb_exchange_token: resp.response.credentials.accessToken,
-            grant_type: 'fb_exchange_token',
-          }
-        })
-        .then(resp => {
-          const credentials = resp.data;
-          return OAuthManager.makeRequest('facebook', '/me?fields=id,name,email,gender').then(resp => {
-            console.log('Me ->', resp);
-            let expdate = new Date(credentials.expires_in);
-            expdate = expdate.toISOString();
-            let authData = {
-              id: resp.data.id,
-              access_token: credentials.access_token,
-              expiration_date: expdate
-            };
-            const data = Object.assign({}, { authData: authData, user: resp.data });
-
-            Parse.FacebookUtils.logIn(authData, {
-              success: function (user) {
-                if (!user.existed()) {
-                  user.set('email', data.user.email);
-                  user.save().then(() => {
-                    console.log("User signed up and logged in through Facebook!");
-                  })
-                } else {
-                  console.log("User logged in through Facebook!");
-                  if (!Parse.FacebookUtils.isLinked(user)) {
-                    Parse.FacebookUtils.link(user, null, {
-                      success: function (user) {
-                        console.log("Woohoo, user logged in with Facebook!");
-                      },
-                      error: function (user, error) {
-                        console.log("User cancelled the Facebook login or did not fully authorize.");
-                      }
-                    });
-                  }
-                }
-              },
-              error: function (user, error) {
-                console.log(user, error);
-                console.log("User cancelled the Facebook login or did not fully authorize.");
-              }
-            });
-            return Parse.Promise.as(data);
-          })
-        });
-    }
-    console.log('type', type);
-    return OAuthManager.authorize(type, { scopes: promissions })
-      .then(resp => {
-        console.log('Your users ID', type, resp);
-        switch (type) {
-          case 'facebook':
-            return facebookResponse(resp);
-            break;
-          case 'google':
-            return Parse.Promise.as(resp);
-            break;
-          case 'twitter':
-            return Parse.Promise.as(resp);
-            break;
+    this.logoutSocial(type);
+    return this._logInWith(type).then((user) => {
+      if (!user.existed()) {
+        const email = user.get('authData')[type].email;
+        if (email) {
+          user.save({ email }).then(() => {
+            console.log(`User signed up and logged in ${type}!`);
+          }).catch(err => console.log('User update error', err));
+        } else {
+          console.log(`User signed up and logged in ${type}!`);
         }
-      })
-      .catch(err => console.log('There was an error', err));
+      } else {
+        console.log(`User signed up and logged in ${type}!`);
+      }
+    }).catch(err => console.log('There was an error', err));
+  }
+
+  _logInWith(type, permissions, options) {
+    if (!permissions || typeof permissions === 'string') {
+      return Parse.User.logInWith(type, {});
+    } else {
+      var newOptions = {};
+      if (options) {
+        for (var key in options) {
+          newOptions[key] = options[key];
+        }
+      }
+      newOptions.authData = permissions;
+      return Parse.User.logInWith(type, newOptions);
+    }
   }
 }

@@ -1,15 +1,12 @@
-import OAuthManager   from 'react-native-oauth';
+import OAuthManager from 'react-native-oauth';
+import Parse from 'parse/react-native';
+import * as OAuthProviders from 'App/Lib/OAuthProviders';
 
 let manager = new OAuthManager('Universal');
 
-// manager.addProvider({
-//     'facebookv2': {
-//         auth_version: "2.0",
-//         authorize_url: 'https://graph.facebook.com/oauth/access_token',
-//         access_token_url: 'https://graph.facebook.com/oauth/access_token',
-//         api_url: 'https://graph.facebook.com',
-//         callback_url: ({client_id}) => `fb${client_id}://authorize`,
-//     }
-// });
-
+export function registerOAuthProvider() {
+    for (key in OAuthProviders) {
+        Parse.User._registerAuthenticationProvider(new OAuthProviders[key](manager));
+    }
+}
 export default manager;

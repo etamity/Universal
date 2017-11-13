@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { ScrollView, Text, Image, View } from 'react-native'
-import SocialButton from 'App/Components/SocialButton.js'
-import RoundedButton from 'App/Components/RoundedButton.js'
+import SocialButton from 'App/Components/SocialButton'
+import RoundedButton from 'App/Components/RoundedButton'
+import DevscreensButton from '../../ignite/DevScreens/DevscreensButton'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Images } from '../Themes'
 import ScrollScreen from 'App/Containers/ScrollScreen'
@@ -18,19 +19,8 @@ export default class LaunchScreen extends Component {
   }
   doSocialLogin(type) {
     Shared.App.loginWithSocial(type);
-    // Parse.FacebookUtils.logIn("user_likes,email", {
-    //   success: function(user) {
-    //     console.log(user);
-    //     // Handle successful login
-    //   },
-    //   error: function(user, error) {
-    //     // Handle errors and cancellation
-    //   }
-    // });
   }
-  doLogout(type) {
-    Shared.App.logoutSocial(type);
-  }
+
   render () {
 
     return (
@@ -41,7 +31,7 @@ export default class LaunchScreen extends Component {
 
           <View style={styles.section} >
             <Image source={Images.ready} />
-            <RoundedButton text="Logout" onPress={ e => this.doLogout('facebook')}/>
+            <DevscreensButton />
           </View>
           <View>
             <SocialButton type="facebook" onPress={ e => this.doSocialLogin('facebook')}>
