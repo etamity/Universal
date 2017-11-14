@@ -7,6 +7,7 @@ export const selectAvatar = (state) => state.github.avatar
 
 // process STARTUP actions
 export function * startup (action) {
+  console.log(__DEV__, console.tron);
   if (__DEV__ && console.tron) {
     // straight-up string logging
     console.tron.log('Hello, I\'m an example of how to log via Reactotron.')

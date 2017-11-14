@@ -1,25 +1,26 @@
-import React, { Component } from 'react'
-import { ScrollView, Text, Image, View } from 'react-native'
-import SocialButton from 'App/Components/SocialButton'
-import RoundedButton from 'App/Components/RoundedButton'
-import DevscreensButton from '../../ignite/DevScreens/DevscreensButton'
+import React, { Component } from 'react';
+import { ScrollView, Text, Image, View } from 'react-native';
+import SocialButton from 'App/Components/SocialButton';
+import RoundedButton from 'App/Components/RoundedButton';
+import DevscreensButton from '../../ignite/DevScreens/DevscreensButton';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Images } from '../Themes'
-import ScrollScreen from 'App/Containers/ScrollScreen'
+import ScrollScreen from 'App/Components/ScrollScreen';
 // Styles
-import styles from './Styles/LaunchScreenStyles'
-import { Fonts, Colors, Metrics } from 'App/Themes/'
+import styles from './Styles/LaunchScreenStyles';
+import { Fonts, Colors, Metrics, Images } from 'App/Themes/';
 
-import Shared from 'App/Lib/Shared'
+import Shared from 'App/Lib/Shared';
 import Parse          from 'parse/react-native';
+
 export default class LaunchScreen extends Component {
   constructor(props) {
     super(props);
     this.doSocialLogin = this.doSocialLogin.bind(this);
+    console.tron.log({'test':props},true);
   }
   doSocialLogin(type) {
     Shared.App.loginWithSocial(type).then(user => {
-      console.log('user', user);
+      console.tron.display({user});
       if (user) {
         this.props.navigation.navigate('LoginScreen')
       }

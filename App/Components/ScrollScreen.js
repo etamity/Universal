@@ -1,19 +1,19 @@
 import React, { Component } from 'react'
-import { ScrollView, Text, Image, View } from 'react-native'
-import DevscreensButton from '../../ignite/DevScreens/DevscreensButton.js'
+import { ScrollView, Text, Image, View, KeyboardAvoidingView } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Images } from '../Themes'
-import RoundedButton from 'App/Components/RoundedButton'
 // Styles
-import styles from './Styles/ScrollScreenStyles'
+import styles from './Styles/ScrollScreenStyle'
 
-export default class BaseScreen extends Component {
-  render () {
+export default class ScrollScreen extends Component {
+  render() {
     return (
       <View style={styles.mainContainer}>
         <Image source={Images.background} style={styles.backgroundImage} resizeMode='stretch' />
         <ScrollView style={styles.container}>
-         {this.props.children}
+          <KeyboardAvoidingView behavior='position'>
+            {this.props.children}
+          </KeyboardAvoidingView>
         </ScrollView>
       </View>
     )

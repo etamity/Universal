@@ -1,7 +1,7 @@
 import React from 'react'
 import * as ReactNavigation from 'react-navigation'
 import { connect } from 'react-redux'
-import AppNavigation from 'App/Screens/AppNavigation'
+import AppNavigation from 'App/Navigation/AppNavigation'
 
 // here is our redux-aware our smart component
 function ReduxNavigation (props) {
