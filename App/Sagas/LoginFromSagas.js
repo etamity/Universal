@@ -16,7 +16,7 @@ import Parse from 'parse/react-native';
 export function * LoginAction (action) {
   console.tron.log({'test': action});
   const {username, password} = action.payload;
-  return Parse.User.logIn(username, password, {
+  yield Parse.User.logIn(username, password, {
     success: function(user) {
       // Do stuff after successful login.
       console.tron.log(user);

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { ScrollView, Text, Image, View } from 'react-native';
 import RoundedButton from 'App/Components/RoundedButton'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ScrollScreen from 'App/Components/ScrollScreen';
@@ -18,7 +19,6 @@ import styles from './Styles/LoginScreenStyle'
 class LoginScreen extends Component {
   constructor(props) {
     super(props);
-    console.tron.log(props);
     this.onFormChange = this.onFormChange.bind(this);
     this.doLogin = this.doLogin.bind(this);
     this.state = {
@@ -33,7 +33,7 @@ class LoginScreen extends Component {
     this.props.loginAction(this.state.form);
   }
   onFormChange(data) {
-    this.setState({form: data});
+    this.setState({ form: data });
   }
 
   render() {
@@ -49,8 +49,7 @@ class LoginScreen extends Component {
       maxLength: 12,
       editable: !this.props.form.isFetching,
       hasError: this.props.form.fields.usernameHasError,
-      error: this.props.form.fields.usernameErrorMsg,
-      default: 'joey'
+      error: this.props.form.fields.usernameErrorMsg
     }
 
     let email = {
@@ -82,7 +81,6 @@ class LoginScreen extends Component {
     }
 
     let loginForm
-    console.tron.log(formType);
     switch (formType) {
       /**
        * ### Registration
@@ -143,13 +141,24 @@ class LoginScreen extends Component {
      */
     return (
       <ScrollScreen>
-        <Form ref='form'
-          type={loginForm}
-          options={options}
-          value={this.state.form}
-          onChange={this.onFormChange}
-        />
-        <RoundedButton text="login" onPress={this.doLogin} />
+        <View style={styles.centered}>
+          <Image source={Images.launch} style={styles.logo} />
+        </View>
+
+        <View style={styles.section} >
+          <Image source={Images.ready} />
+        </View>
+        <View style={styles.section} >
+          <Form ref='form'
+            type={loginForm}
+            options={options}
+            value={this.state.form}
+            onChange={this.onFormChange}
+          />
+          <RoundedButton text="login" onPress={this.doLogin} />
+        </View>
+        <View style={styles.section} >
+        </View>
       </ScrollScreen>
 
     )
