@@ -6,8 +6,8 @@ import Immutable from 'seamless-immutable'
 const { Types, Creators } = createActions({
   loginRequest: ['payload'],
   logoutRequest: null,
-  registerRequest: ['email', 'username', 'password'],
-  requestSuccess: ['user'],
+  registerRequest: ['payload'],
+  requestSuccess: ['payload'],
   requestFailure: null
 })
 
@@ -43,12 +43,12 @@ export const loginRequest = (state, {username, password}) => {
 }
 
 
-export const registerRequest = (state, { username, email }) =>
-  state.merge({ fetching: true, username, email })
+export const registerRequest = (state, { username, password, email }) =>
+  state.merge({ fetching: true, username, password, email })
 
 // successful api lookup
-export const requestSuccess = (state, action) => {
-  const { user } = action
+export const requestSuccess = (state, payload) => {
+  const { user } = payload
   return state.merge({ fetching: false, error: null, user })
 }
 

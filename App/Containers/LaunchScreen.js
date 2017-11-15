@@ -11,22 +11,24 @@ import { Fonts, Colors, Metrics, Images } from 'App/Themes/';
 
 import Shared from 'App/Lib/Shared';
 import Parse          from 'parse/react-native';
-
+import Constants from 'App/Lib/Constants'
 export default class LaunchScreen extends Component {
   constructor(props) {
     super(props);
     this.doSocialLogin = this.doSocialLogin.bind(this);
-    console.tron.log({'test':props},true);
+    this.showAuthScreen = this.showAuthScreen.bind(this);
   }
   doSocialLogin(type) {
     Shared.App.loginWithSocial(type).then(user => {
       console.tron.display({user});
       if (user) {
-        this.props.navigation.navigate('LoginScreen')
+        this.props.navigation.navigate('MainScreen')
       }
     });
   }
-
+  showAuthScreen(type) {
+    this.props.navigation.navigate('LoginScreen', {type})
+  }
   render () {
 
     return (
@@ -38,6 +40,10 @@ export default class LaunchScreen extends Component {
           <View style={styles.section} >
             <Image source={Images.ready} />
             <DevscreensButton />
+          </View>
+          <View style={styles.sectionRow} >
+            <RoundedButton text="Login" style={{backgroundColor: "#674172"}} onPress={() => { this.showAuthScreen(Constants.LOGIN)}} />
+            <RoundedButton text="Sign Up" style={{backgroundColor: "#E67E22"}} onPress={() => { this.showAuthScreen(Constants.REGISTER)}} />
           </View>
           <View>
             <SocialButton type="facebook" onPress={ e => this.doSocialLogin('facebook')}>

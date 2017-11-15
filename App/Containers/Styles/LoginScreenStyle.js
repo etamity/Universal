@@ -11,5 +11,15 @@ export default StyleSheet.create({
   },
   centered: {
     alignItems: 'center'
+  },
+  sectionForm: {
+    ...ApplicationStyles.screen.section,
+    backgroundColor: 'white',
+    borderRadius: 5
+  },
+  sectionRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    flexGrow: 1
   }
 })

@@ -13,8 +13,8 @@
 import { call, put } from 'redux-saga/effects'
 import LoginFromActions from '../Redux/LoginFromRedux'
 import Parse from 'parse/react-native';
+
 export function * LoginAction (action) {
-  console.tron.log({'test': action});
   const {username, password} = action.payload;
   yield Parse.User.logIn(username, password, {
     success: function(user) {
@@ -28,5 +28,27 @@ export function * LoginAction (action) {
       return put(LoginFromActions.requestFailure());
     }
   });
+}
 
+export function RegisterAction (action) {
+  console.tron.log({'RegisterAction': action});
+  const { username, email, password } = action.payload;
+  
+  var user = new Parse.User();
+  user.set("username", username);
+  user.set("password", password);
+  user.set("email", email);
+  
+  return user.signUp(null, {
+    success: function(user) {
+      // Do stuff after successful login.
+      console.tron.log(user);
+      return put(LoginFromActions.requestSuccess(user));
+    },
+    error: function(user, error) {
+      // Show the error message somewhere and let the user try again.
+      console.tron.log(error);
+      return put(LoginFromActions.requestFailure());
+    }
+  });
 }

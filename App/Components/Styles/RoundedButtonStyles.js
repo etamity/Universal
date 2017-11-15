@@ -3,6 +3,7 @@ import { Fonts, Colors, Metrics } from '../../Themes/'
 
 export default StyleSheet.create({
   button: {
+    flex: 1,
     height: 45,
     borderRadius: 5,
     marginHorizontal: Metrics.section,

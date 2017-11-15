@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { ScrollView, Text, Image, View } from 'react-native';
-import RoundedButton from 'App/Components/RoundedButton'
+import RoundedButton from 'App/Components/RoundedButton';
+import SocialButton from 'App/Components/SocialButton';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ScrollScreen from 'App/Components/ScrollScreen';
 import { connect } from 'react-redux'
 import { Fonts, Colors, Metrics, Images } from 'App/Themes/';
 
-import Shared from 'App/Lib/Shared';
-
+import Constants from 'App/Lib/Constants'
 import t from 'tcomb-form-native';
 let Form = t.form.Form
 import I18n from 'App/I18n';
@@ -20,24 +20,44 @@ class LoginScreen extends Component {
   constructor(props) {
     super(props);
     this.onFormChange = this.onFormChange.bind(this);
-    this.doLogin = this.doLogin.bind(this);
+    this.doSubmit = this.doSubmit.bind(this);
+    this.changeFormType = this.changeFormType.bind(this);
     this.state = {
+      formType: props.navigation.state.params.type,
       form: {
-        username: 'joey',
-        password: '1234'
+        username: '',
+        password: '',
+        email: ''
       }
     }
   }
 
-  doLogin(type) {
-    this.props.loginAction(this.state.form);
+  doSubmit(type) {
+    switch (type) {
+      case Constants.LOGIN:
+      this.props.loginAction(this.state.form).then( user => {
+        if (user) {
+          this.props.navigation.goBack('MainScreen');
+        }
+      });
+      break;
+      case Constants.REGISTER:
+      this.props.registerAction(this.state.form);
+      break;
+      case Constants.FORGOT_PASSWORD:
+      this.props.loginAction(this.state.form);
+      break;
+    }
+
   }
   onFormChange(data) {
     this.setState({ form: data });
   }
-
+  changeFormType(type) {
+    this.setState({formType: type})
+  }
   render() {
-    let formType = 'LOGIN'
+    let formType = this.state.formType;
 
     let options = {
       fields: {
@@ -86,7 +106,7 @@ class LoginScreen extends Component {
        * ### Registration
        * The registration form has 4 fields
        */
-      case ('REGISTER'):
+      case (Constants.REGISTER):
         loginForm = t.struct({
           username: t.String,
           email: t.String,
@@ -109,7 +129,7 @@ class LoginScreen extends Component {
        * ### Login
        * The login form has only 2 fields
        */
-      case ('LOGIN'):
+      case (Constants.LOGIN):
         loginForm = t.struct({
           username: t.String,
           password: t.String
@@ -125,7 +145,7 @@ class LoginScreen extends Component {
        * ### Reset password
        * The password reset form has only 1 field
        */
-      case ('FORGOT_PASSWORD'):
+      case (Constants.FORGOT_PASSWORD):
         loginForm = t.struct({
           email: t.String
         })
@@ -148,16 +168,22 @@ class LoginScreen extends Component {
         <View style={styles.section} >
           <Image source={Images.ready} />
         </View>
-        <View style={styles.section} >
+        <View style={styles.sectionForm} >
           <Form ref='form'
             type={loginForm}
             options={options}
             value={this.state.form}
             onChange={this.onFormChange}
           />
-          <RoundedButton text="login" onPress={this.doLogin} />
-        </View>
-        <View style={styles.section} >
+          <RoundedButton text="Submit" style={{backgroundColor: "#674172"}} onPress={() => {
+            this.doSubmit(this.state.formType);
+          }} />
+          <RoundedButton text="Forgot Password" onPress={() => {
+            this.changeFormType(Constants.FORGOT_PASSWORD);
+          }} />
+          <RoundedButton text="Go Back" style={{backgroundColor: "#95A5A6"}} onPress={() => {
+            this.props.navigation.goBack();
+          }} />
         </View>
       </ScrollScreen>
 
@@ -173,7 +199,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loginAction: (payload) => dispatch(AuthActions.loginRequest(payload))
+    loginAction: (payload) => dispatch(AuthActions.loginRequest(payload)),
+    registerAction: (payload) => dispatch(AuthActions.registerRequest(payload))
   }
 }
 
