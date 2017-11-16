@@ -23,6 +23,7 @@ export default class RoundedButton extends Component {
     text: PropTypes.string,
     children: PropTypes.string,
     style: PropTypes.object,
+    enabled: PropTypes.boolean,
     navigator: PropTypes.object
   }
 

@@ -69,7 +69,9 @@ class LoginScreen extends Component {
       maxLength: 12,
       editable: !this.props.form.isFetching,
       hasError: this.props.form.fields.usernameHasError,
-      error: this.props.form.fields.usernameErrorMsg
+      error: this.props.form.fields.usernameErrorMsg,
+      placeholder : I18n.t('LoginForm.username'),
+      autoCapitalize : 'none'
     }
 
     let email = {
@@ -77,7 +79,9 @@ class LoginScreen extends Component {
       keyboardType: 'email-address',
       editable: !this.props.form.isFetching,
       hasError: this.props.form.fields.emailHasError,
-      error: this.props.form.fields.emailErrorMsg
+      error: this.props.form.fields.emailErrorMsg,
+      placeholder : I18n.t('LoginForm.email'),
+      autoCapitalize : 'none'
     }
 
     let secureTextEntry = !this.props.form.fields.showPassword
@@ -88,7 +92,8 @@ class LoginScreen extends Component {
       secureTextEntry: secureTextEntry,
       editable: !this.props.form.isFetching,
       hasError: this.props.form.fields.passwordHasError,
-      error: this.props.form.fields.passwordErrorMsg
+      error: this.props.form.fields.passwordErrorMsg,
+      placeholder : I18n.t('LoginForm.password'),
     }
 
     let passwordAgain = {
@@ -97,7 +102,8 @@ class LoginScreen extends Component {
       maxLength: 12,
       editable: !this.props.form.isFetching,
       hasError: this.props.form.fields.passwordAgainHasError,
-      error: this.props.form.fields.passwordAgainErrorMsg
+      error: this.props.form.fields.passwordAgainErrorMsg,
+      placeholder : I18n.t('LoginForm.password_again')
     }
 
     let loginForm
@@ -114,15 +120,10 @@ class LoginScreen extends Component {
           passwordAgain: t.String
         })
         options.fields['username'] = username
-        options.fields['username'].placeholder = I18n.t('LoginForm.username')
-        options.fields['username'].autoCapitalize = 'none'
         options.fields['email'] = email
-        options.fields['email'].placeholder = I18n.t('LoginForm.email')
-        options.fields['email'].autoCapitalize = 'none'
         options.fields['password'] = password
-        options.fields['password'].placeholder = I18n.t('LoginForm.password')
         options.fields['passwordAgain'] = passwordAgain
-        options.fields['passwordAgain'].placeholder = I18n.t('LoginForm.password_again')
+  
         break
 
       /**
@@ -135,10 +136,7 @@ class LoginScreen extends Component {
           password: t.String
         })
         options.fields['username'] = username
-        options.fields['username'].placeholder = I18n.t('LoginForm.username')
-        options.fields['username'].autoCapitalize = 'none'
         options.fields['password'] = password
-        options.fields['password'].placeholder = I18n.t('LoginForm.password')
         break
 
       /**
@@ -150,8 +148,6 @@ class LoginScreen extends Component {
           email: t.String
         })
         options.fields['email'] = email
-        options.fields['email'].autoCapitalize = 'none'
-        options.fields['email'].placeholder = I18n.t('LoginForm.email')
         break
     } // switch
 
@@ -175,7 +171,7 @@ class LoginScreen extends Component {
             value={this.state.form}
             onChange={this.onFormChange}
           />
-          <RoundedButton text="Submit" style={{backgroundColor: "#674172"}} onPress={() => {
+          <RoundedButton enabled={!this.prob} text="Submit" style={{backgroundColor: "#674172"}} onPress={() => {
             this.doSubmit(this.state.formType);
           }} />
           <RoundedButton text="Forgot Password" onPress={() => {
