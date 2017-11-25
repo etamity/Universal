@@ -22,7 +22,7 @@ export default class LaunchScreen extends Component {
     Shared.App.loginWithSocial(type).then(user => {
       console.tron.display({user});
       if (user) {
-        this.props.navigation.navigate('MainScreen')
+        this.props.navigation.navigate('MainTabScreen')
       }
     });
   }
