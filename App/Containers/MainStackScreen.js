@@ -1,37 +1,29 @@
 import { SafeAreaView, StackNavigator } from 'react-navigation';
 import MainTabScreen from './MainTabScreen';
 import * as StackScreens from './StackScreens';
-
+import { ApplicationStyles } from '../Themes/'
 
 const screens = Object.keys(StackScreens).reduce((routes, key, index) => {
   const path = index === 0 ? '/' : `/${key.toLowerCase()}`;
   routes[key] = {
-      screen: StackScreens[key],
-      path: path
+    screen: StackScreens[key],
+    path: path,
+    navigationOptions: ({ navigation }) => ({
+      title: StackScreens[key].navigationOptions.headerTitle,
+      headerTintColor: ApplicationStyles.header.headerTintColor,
+      headerTitleStyle: ApplicationStyles.header.titleStyle,
+      headerStyle: ApplicationStyles.header.headerStyle,
+    })
   };
 
   return routes;
-}, {});
-
-
-const MainStackScreen = StackNavigator({
+}, {
   MainTabScreen: {
-      screen: MainTabScreen,
-    },
-    NotificationScreen: {
-      screen: StackScreens.NotificationScreen,
-      path:'/notifications',
-      navigationOptions: {
-        title: 'Notifications',
-      },
-    },
-    ProfileScreen: {
-      screen: StackScreens.ProfileScreen,
-      path: '/people/:name',
-      navigationOptions: ({ navigation }) => {
-        title: `${navigation.state.params.name}'s Profile!`;
-      },
-    },
+    screen: MainTabScreen,
+  }
   });
 
-  export default MainStackScreen
+
+const MainStackScreen = StackNavigator(screens);
+
+export default MainStackScreen

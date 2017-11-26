@@ -7,8 +7,6 @@ export default {
   allowTextFontScaling: true
 }
 
-console.log(Config);
-
 export const ParseConfig = {
   serverURL: Config.PARSE_API_URL,
   appId: Config.PARSE_APP_ID,

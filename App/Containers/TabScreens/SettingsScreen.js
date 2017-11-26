@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
 class SettingsScreenClass extends Component {
   static navigationOptions = {
     tabBarLabel: 'Settings',
+    headerTitle: 'Settings',
     // Note: By default the icon is only shown on iOS. Search the showIcon option below.
     tabBarIcon: ({ tintColor, focused }) => (
       <Ionicons
