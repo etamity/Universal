@@ -1,4 +1,17 @@
 {
   "name": "Universal",
-  "displayName": "Universal"
+  "displayName": "Universal",
+  "expo": {
+    "name": "Universal",
+    "icon": "./assets/images/icon.png",
+    "version": "1.0.0",
+    "slug": "universal",
+    "sdkVersion": "23.0.0",
+    "ios": {
+      "bundleIdentifier": "innovation.apps.com.Universal"
+    },
+    "android": {
+      "package": "innovation.apps.com.Universal"
+    }
+   }
 }
