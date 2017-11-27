@@ -21,12 +21,15 @@ export function * LoginAction (action) {
     success: function(user) {
       // Do stuff after successful login.
       console.log(user);
-      return put(LoginFromActions.requestSuccess(user));
+      return put(LoginFromActions.requestSuccess());
     },
     error: function(user, error) {
       // The login failed. Check error to see why.
       console.log(error);
-      return put(LoginFromActions.requestFailure());
+      payload = {
+        message: error
+      }
+      return put(LoginFromActions.requestFailure(payload));
     }
   });
 }
@@ -44,12 +47,15 @@ export function RegisterAction (action) {
     success: function(user) {
       // Do stuff after successful login.
       console.tron.log(user);
-      return put(LoginFromActions.requestSuccess(user));
+      return put(LoginFromActions.requestSuccess());
     },
     error: function(user, error) {
       // Show the error message somewhere and let the user try again.
       console.tron.log(error);
-      return put(LoginFromActions.requestFailure());
+      payload = {
+        message: error
+      }
+      return put(LoginFromActions.requestFailure(payload));
     }
   });
 }

@@ -8,7 +8,7 @@ const { Types, Creators } = createActions({
   logoutRequest: null,
   registerRequest: ['payload'],
   requestSuccess: ['payload'],
-  requestFailure: null
+  requestFailure: ['payload']
 })
 
 export const LoginFromTypes = Types
@@ -21,7 +21,7 @@ export const INITIAL_STATE = Immutable({
   error: null,
   isValid: false,
   disabled: false,
-  user: null,
+  message: null,
   fields: Immutable({
     username: '',
     usernameErrorMsg: null,
@@ -47,17 +47,16 @@ export const registerRequest = (state, { username, password, email }) =>
   state.merge({ fetching: true, username, password, email })
 
 // successful api lookup
-export const requestSuccess = (state, payload) => {
-  const { user } = payload
-  return state.merge({ fetching: false, error: null, user })
+export const requestSuccess = (state) => {
+  return state.merge({ fetching: false, error: null })
 }
 
 // Something went wrong somewhere.
-export const requestFailure = state =>
-  state.merge({ fetching: false, error: true, user: null })
+export const requestFailure = (state, {message}) =>
+  state.merge({ fetching: false, error: true, message })
 
-export const logoutRequest = state =>
-  state.merge({ fetching: false, error: false, user: null })
+export const logoutRequest = (state, {message}) =>
+  state.merge({ fetching: false, error: false })
 
 /* ------------- Hookup Reducers To Types ------------- */
 

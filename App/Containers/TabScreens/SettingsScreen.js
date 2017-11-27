@@ -6,6 +6,9 @@ import { connect } from 'react-redux'
 import { StyleSheet } from 'react-native'
 import { ApplicationStyles } from '../../Themes/'
 import Ionicons from 'react-native-vector-icons/Ionicons';
+
+import {ListRow} from 'teaset';
+
 const styles = StyleSheet.create({
   ...ApplicationStyles.screen
 });
@@ -28,7 +31,7 @@ class SettingsScreenClass extends Component {
     return (
       <ScrollView style={styles.container}>
         <KeyboardAvoidingView behavior='position'>
-          <Text>Settings</Text>
+        <ListRow title='Show' icon={<Ionicons size={26} name="ios-power"/>} topSeparator='full' bottomSeparator='full' />
         </KeyboardAvoidingView>
       </ScrollView>
     )

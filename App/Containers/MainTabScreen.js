@@ -29,6 +29,11 @@ const MainTabScreen = TabNavigator(screens,
             activeTintColor: ApplicationStyles.tabbar.activeTintColor,
             ...ApplicationStyles.tabbar
         },
+        configureTransition: (currentTransitionProps, nextTransitionProps) => ({
+            timing: 0,
+            tension: 0.1,
+            friction: 5
+        })
     }
 );
 

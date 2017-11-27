@@ -8,7 +8,7 @@ import ScrollScreen from 'App/Components/ScrollScreen';
 // Styles
 import styles from './Styles/LaunchScreenStyles';
 import { Fonts, Colors, Metrics, Images } from 'App/Themes/';
-import { Button } from 'teaset'
+import { Button, ModalIndicator } from 'teaset'
 import Shared from 'App/Lib/Shared';
 import Parse          from 'parse/react-native';
 import Constants from 'App/Lib/Constants'
@@ -19,8 +19,10 @@ export default class LaunchScreen extends Component {
     this.showAuthScreen = this.showAuthScreen.bind(this);
   }
   doSocialLogin(type) {
+    ModalIndicator.show(`Logining with ${type}`);
     Shared.App.loginWithSocial(type).then(user => {
       if (user) {
+        ModalIndicator.hide();
         this.props.navigation.navigate('MainDrawerScreen')
       }
     });
