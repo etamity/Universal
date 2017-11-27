@@ -7,6 +7,7 @@ import { StyleSheet } from 'react-native'
 import { ApplicationStyles } from '../../Themes/'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Button } from 'teaset';
+import Parse          from 'parse/react-native';
 
 const styles = StyleSheet.create({
   ...ApplicationStyles.screen
@@ -25,13 +26,27 @@ class MainScreenClass extends Component {
       />
     ),
   };
+  constructor(props) {
+    super(props);
+    Parse.User.currentAsync().then((user)=>{
+      console.log(user);
+      if (!user) {
+        this.props.navigation.navigate('LaunchScreen');
+      }
+    }).catch( err => {
+      console.log(err);
+    });
+
+  }
 
   render() {
     return (
       <ScrollView style={styles.container}>
         <KeyboardAvoidingView behavior='position'>
           <Text>MainScreen</Text>
-          <Button type='primary' size='md' title='Primary' onPress={() => this.props.navigation.navigate('ProfileScreen', { userId: '0101010' })} />
+          <Button type='primary' size='md' title='Primary' onPress={() =>{
+            Parse.User.logOut();
+          }}/>
         </KeyboardAvoidingView>
       </ScrollView>
     )

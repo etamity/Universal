@@ -7,25 +7,37 @@ import Colors from './Colors'
 
 const ApplicationStyles = {
   header: {
-    headerTintColor: 'white',
+    headerTintColor: Colors.snow,
     titleStyle: {
-      color: 'white'
+      color: Colors.snow
+    },
+    headerTitleStyle: {
+
+    },
+    headerBackTitleStyle: {
+
     },
     headerStyle:{
-      backgroundColor: '#34495e'
+      backgroundColor: Colors.banner
     }
   },
   tabbar: {
-    tabBarStyle: {
+    style: {
+      backgroundColor: Colors.snow
+    },
+    labelStyle: {
 
     },
     tabStyle: {
 
     },
+    indicatorStyle: {
+
+    },
     iconStyle: {
 
     },
-    activeTintColor: '#c0392b'
+    activeTintColor: Colors.coal
   },
   screen: {
     mainContainer: {

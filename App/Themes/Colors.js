@@ -20,8 +20,9 @@ const colors = {
   drawer: 'rgba(30, 30, 29, 0.95)',
   eggplant: '#251a34',
   border: '#483F53',
-  banner: '#5F3E63',
+  banner: '#34495e',
   text: '#E0D7E5'
 }
 
 export default colors
+

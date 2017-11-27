@@ -10,9 +10,7 @@ const screens = Object.keys(StackScreens).reduce((routes, key, index) => {
     path: path,
     navigationOptions: ({ navigation }) => ({
       title: StackScreens[key].navigationOptions.headerTitle,
-      headerTintColor: ApplicationStyles.header.headerTintColor,
-      headerTitleStyle: ApplicationStyles.header.titleStyle,
-      headerStyle: ApplicationStyles.header.headerStyle,
+      ...ApplicationStyles.header
     })
   };
 

@@ -16,15 +16,16 @@ import Parse from 'parse/react-native';
 
 export function * LoginAction (action) {
   const {username, password} = action.payload;
+  console.log(username, password);
   yield Parse.User.logIn(username, password, {
     success: function(user) {
       // Do stuff after successful login.
-      console.tron.log(user);
+      console.log(user);
       return put(LoginFromActions.requestSuccess(user));
     },
     error: function(user, error) {
       // The login failed. Check error to see why.
-      console.tron.log(error);
+      console.log(error);
       return put(LoginFromActions.requestFailure());
     }
   });

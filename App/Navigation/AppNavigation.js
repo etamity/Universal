@@ -15,6 +15,7 @@ const PrimaryNav = StackNavigator({
 }, {
   // Default config for all screens
   headerMode: 'none',
+  mode: 'modal',
   initialRouteName: 'MainDrawerScreen',
   navigationOptions: {
     headerStyle: styles.header

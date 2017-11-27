@@ -23,10 +23,12 @@ export default class RoundedButton extends Component {
     text: PropTypes.string,
     children: PropTypes.string,
     style: PropTypes.object,
-    enabled: PropTypes.boolean,
+    enabled: PropTypes.bool,
     navigator: PropTypes.object
   }
-
+  static defaultProps= {
+    enabled: true
+  }
   getText() {
     const buttonText = this.props.text || this.props.children || ''
     return buttonText.toUpperCase()
@@ -34,7 +36,7 @@ export default class RoundedButton extends Component {
 
   render () {
     return (
-      <TouchableOpacity style={[styles.button,  this.props.style]} onPress={this.props.onPress}>
+      <TouchableOpacity style={[styles.button,  this.props.style]} onPress={this.props.enabled ? this.props.onPress :null}>
         <Text style={styles.buttonText}>{this.getText()}</Text>
       </TouchableOpacity>
     )
