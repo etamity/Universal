@@ -5,6 +5,7 @@ import RoundedButton from 'App/Components/RoundedButton';
 import DevscreensButton from '../../ignite/DevScreens/DevscreensButton';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ScrollScreen from 'App/Components/ScrollScreen';
+import { NavigationActions } from 'react-navigation'
 // Styles
 import styles from './Styles/LaunchScreenStyles';
 import { Fonts, Colors, Metrics, Images } from 'App/Themes/';
@@ -23,7 +24,13 @@ export default class LaunchScreen extends Component {
     Shared.App.loginWithSocial(type).then(user => {
       if (user) {
         ModalIndicator.hide();
-        this.props.navigation.navigate('MainDrawerScreen')
+        const resetAction = NavigationActions.reset({
+          index: 0,
+          actions: [
+            NavigationActions.navigate({ routeName: 'MainDrawerScreen'})
+          ]
+        });
+        this.props.navigation.dispatch(resetAction);        
       }
     });
   }

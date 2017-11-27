@@ -23,7 +23,7 @@ const screens = Object.keys(TabScreens).reduce((routes, key, index) => {
 const MainTabScreen = TabNavigator(screens,
     {
         tabBarPosition: 'bottom',
-        animationEnabled: true,
+        animationEnabled: false,
         swipeEnabled: false,
         tabBarOptions: {
             activeTintColor: ApplicationStyles.tabbar.activeTintColor,

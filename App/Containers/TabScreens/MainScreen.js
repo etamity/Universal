@@ -29,7 +29,6 @@ class MainScreenClass extends Component {
   constructor(props) {
     super(props);
     Parse.User.currentAsync().then((user)=>{
-      console.log(user);
       if (!user) {
         this.props.navigation.navigate('LaunchScreen');
       }
@@ -43,10 +42,6 @@ class MainScreenClass extends Component {
     return (
       <ScrollView style={styles.container}>
         <KeyboardAvoidingView behavior='position'>
-          <Text>MainScreen</Text>
-          <Button type='primary' size='md' title='Primary' onPress={() =>{
-            Parse.User.logOut();
-          }}/>
         </KeyboardAvoidingView>
       </ScrollView>
     )

@@ -6,6 +6,8 @@ import { connect } from 'react-redux'
 import { StyleSheet } from 'react-native'
 import { ApplicationStyles } from '../../Themes/'
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {ListRow, Label} from 'teaset';
+
 const styles = StyleSheet.create({
   ...ApplicationStyles.screen
 });
@@ -30,7 +32,6 @@ class ProfileScreenClass extends Component {
     return (
       <ScrollView style={styles.container}>
         <KeyboardAvoidingView behavior='position'>
-          <Text>Profile</Text>
         </KeyboardAvoidingView>
       </ScrollView>
     )
