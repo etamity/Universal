@@ -10,6 +10,7 @@ import { ListRow } from 'teaset';
 import Parse from 'parse/react-native';
 import { Button, ModalIndicator } from 'teaset'
 import { NavigationActions } from 'react-navigation'
+import LoginFormRedux from 'App/Redux/LoginFormRedux'
 
 const styles = StyleSheet.create({
   ...ApplicationStyles.screen
@@ -35,16 +36,14 @@ class MoreScreenClass extends Component {
   }
   _logoutAction() {
     ModalIndicator.show('Loading ...');
-    Parse.User.logOut().then(() => {
-      const resetAction = NavigationActions.reset({
-        index: 0,
-        actions: [
-          NavigationActions.navigate({ routeName: 'LaunchScreen' })
-        ]
-      });
-      this.props.navigation.dispatch(resetAction);
+    this.props.logOut();
+  }
+
+  componentWillReceiveProps(props) {
+    if (!props.currentUser) {
+      this.props.navigation.navigate('LaunchScreen');
       ModalIndicator.hide();
-    })
+    }
   }
   render() {
     return (
@@ -76,11 +75,13 @@ class MoreScreenClass extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    currentUser: state.app.currentUser
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    logOut: () =>  dispatch(LoginFormRedux.logoutRequest())
   }
 }
 

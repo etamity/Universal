@@ -8,6 +8,8 @@ import { ApplicationStyles } from '../../Themes/'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Button } from 'teaset';
 import Parse          from 'parse/react-native';
+import AppRedux from 'App/Redux/AppRedux';
+import { NavigationActions } from 'react-navigation'
 
 const styles = StyleSheet.create({
   ...ApplicationStyles.screen
@@ -28,16 +30,15 @@ class MainScreenClass extends Component {
   };
   constructor(props) {
     super(props);
-    Parse.User.currentAsync().then((user)=>{
-      if (!user) {
-        this.props.navigation.navigate('LaunchScreen');
-      }
-    }).catch( err => {
-      console.log(err);
-    });
-
+    console.log(props);
+    // this.props.fetchCurrentUserAction();
   }
-
+  // componentWillReceiveProps(props) {
+  //   console.log(this.props.navigation.key);
+  //   if (!props.currentUser && this.props.navigation.key !=='LaunchScreen') {
+  //     this.props.navigation.navigate('LaunchScreen');        
+  //   }
+  // }
   render() {
     return (
       <ScrollView style={styles.container}>
@@ -50,11 +51,13 @@ class MainScreenClass extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    currentUser: state.app.currentUser
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    fetchCurrentUserAction: ()=> dispatch(AppRedux.fetchCurrentUserAction())
   }
 }
 
