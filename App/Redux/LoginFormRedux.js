@@ -11,7 +11,7 @@ const { Types, Creators } = createActions({
   requestFailure: ['payload']
 })
 
-export const LoginFromTypes = Types
+export const LoginFormRedux = Types
 export default Creators
 
 /* ------------- Initial State ------------- */

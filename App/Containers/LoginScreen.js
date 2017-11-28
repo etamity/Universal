@@ -11,7 +11,7 @@ import Constants from 'App/Lib/Constants'
 import t from 'tcomb-form-native';
 let Form = t.form.Form
 import I18n from 'App/I18n';
-import AuthActions from 'App/Redux/LoginFromRedux'
+import AuthActions from 'App/Redux/LoginFormRedux'
 
 // Styles
 import styles from './Styles/LoginScreenStyle'
