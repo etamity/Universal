@@ -1,6 +1,5 @@
 // Simple React Native specific changes
 import '../I18n/I18n'
-import Config from 'react-native-config'
 import { Platform } from 'react-native';
 export default {
   // font scaling override - RN default is on
@@ -8,31 +7,31 @@ export default {
 }
 
 export const ParseConfig = {
-  serverURL: Config.PARSE_API_URL,
-  appId: Config.PARSE_APP_ID,
-  masterKey: Config.PARSE_MASTER_KEY,
-  restKey: Config.PARSE_REST_API_KEY,
-  javascriptKey: Config.PARSE_JAVASCRIPT_KEY,
-  clientKey: Config.PARSE_CLIENT_KEY,
-  apiKey: Config.PARSE_FILE_KEY,
-  appName: Config.APP_NAME,
+  serverURL: 'https://parseapi.back4app.com/',
+  appId: 'BfykOdTLxbKo1MB79YqvTT2XFSbhzPqOUYBTClCr',
+  masterKey: 'b7gTAOGHAmEQc2FoAOhJeo3zf0rTIg1bRb5dUqfO',
+  restKey: 'ZcbUIOvxVgY2L3X3S4ITgmyGT2rCGFzdyYoeE0n0',
+  javascriptKey: 'YuBxowNrPNJzi8QcFHlxQPJNTVGifjaJtZg4tQ0s',
+  clientKey:'bJZveYDz5v03gKLrHWd100jScoakq4jwI22wHExN',
+  apiKey: 'cbc35f9f-16f7-47b0-957d-4b91cce2aa63',
+  appName: 'SwapAnt',
   description: 'Exchange your stuff or skill easily happen.'
 }
 
 export const SocialConfig = {
   twitter: {
-    consumer_key: Config.TWITTER_APP_ID,
-    consumer_secret: Config.TWITTER_APP_SECRET,
-    callback_url: `${Config.APP_NAME.toLowerCase()}://oauth-response/twitter`
+    consumer_key: 'Py239XmBRxwAqqds3OF5IBzTi',
+    consumer_secret: 'XC82wCUZgkb3aEPiEZB6Hzeo8DCF0MnE6w5yJ5KlNtF5j6JtJd',
+    callback_url: `swapant://oauth-response/twitter`
   },
   facebook: {
-    client_id: Config.FACEBOOK_APP_ID,
-    client_secret: Config.FACEBOOK_APP_SECRET,
-    callback_url: `fb${Config.FACEBOOK_APP_ID}://authorize`
+    client_id: '1706321676305607',
+    client_secret: '5b7b8ce2fe682bb12b68c29ac75a5f0a',
+    callback_url: `fb1706321676305607://authorize`
   },
 
   google: {
-    callback_url: Config.GOOGLE_CALLBACK_URL,
-    client_id: Config.GOOGLE_CLIENT_ID
+    callback_url: 'com.googleusercontent.apps.547912089250-6mr9u4e5ne8dofaip1fnrp3ffetpc20v:/google',
+    client_id: '547912089250-6mr9u4e5ne8dofaip1fnrp3ffetpc20v.apps.googleusercontent.com'
   }
 }

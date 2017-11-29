@@ -1,17 +1,27 @@
 {
-  "name": "Universal",
-  "displayName": "Universal",
   "expo": {
     "name": "Universal",
     "icon": "./assets/images/icon.png",
     "version": "1.0.0",
     "slug": "universal",
     "sdkVersion": "23.0.0",
+    "appKey": "Universal",
     "ios": {
-      "bundleIdentifier": "innovation.apps.com.Universal"
+      "bundleIdentifier": "innovation.apps.com.Universal",
+      "publishBundlePath": "ios/universal/Supporting/shell-app.bundle",
+      "publishManifestPath": "ios/universal/Supporting/shell-app-manifest.json"
     },
     "android": {
       "package": "innovation.apps.com.Universal"
+    },
+    "isDetached": true,
+    "facebookScheme": "fb1706321676305607",
+    "facebookDisplayName": "SwapAnt",
+    "facebookAppId": "1706321676305607",
+    "detach": {
+      "scheme": "exp504ab8f88d434e64a53397650cd96adc",
+      "iosExpoViewUrl": "https://s3.amazonaws.com/exp-exponent-view-code/ios-v2.1.4-sdk23.0.0-f67c5bc3-4a27-40f6-8686-91e8f868a145.tar.gz",
+      "androidExpoViewUrl": "https://s3.amazonaws.com/exp-exponent-view-code/android-v2.1.1-sdk23.0.0-4edc3e46-9fb5-441c-86a4-2a46f92e18a6.tar.gz"
     }
-   }
+  }
 }
