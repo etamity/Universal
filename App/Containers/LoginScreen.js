@@ -11,7 +11,7 @@ import Constants from 'App/Lib/Constants'
 import t from 'tcomb-form-native';
 let Form = t.form.Form
 import I18n from 'App/I18n';
-import AuthActions from 'App/Redux/LoginFromRedux'
+import AuthActions from 'App/Redux/LoginFormRedux'
 
 // Styles
 import styles from './Styles/LoginScreenStyle'
@@ -33,13 +33,10 @@ class LoginScreen extends Component {
   }
 
   doSubmit(type) {
+
     switch (type) {
       case Constants.LOGIN:
-      this.props.loginAction(this.state.form).then( user => {
-        if (user) {
-          this.props.navigation.goBack('MainScreen');
-        }
-      });
+      this.props.loginAction(this.state.form);
       break;
       case Constants.REGISTER:
       this.props.registerAction(this.state.form);
@@ -171,7 +168,7 @@ class LoginScreen extends Component {
             value={this.state.form}
             onChange={this.onFormChange}
           />
-          <RoundedButton enabled={!this.prob} text="Submit" style={{backgroundColor: "#674172"}} onPress={() => {
+          <RoundedButton text="Submit" style={{backgroundColor: "#674172"}} onPress={() => {
             this.doSubmit(this.state.formType);
           }} />
           <RoundedButton text="Forgot Password" onPress={() => {

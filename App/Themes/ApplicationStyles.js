@@ -6,6 +6,39 @@ import Colors from './Colors'
 // Similar to an XML fragment layout in Android
 
 const ApplicationStyles = {
+  header: {
+    headerTintColor: Colors.snow,
+    titleStyle: {
+      color: Colors.snow
+    },
+    headerTitleStyle: {
+
+    },
+    headerBackTitleStyle: {
+
+    },
+    headerStyle:{
+      backgroundColor: Colors.banner
+    }
+  },
+  tabbar: {
+    style: {
+      backgroundColor: Colors.snow
+    },
+    labelStyle: {
+
+    },
+    tabStyle: {
+
+    },
+    indicatorStyle: {
+
+    },
+    iconStyle: {
+
+    },
+    activeTintColor: Colors.fire
+  },
   screen: {
     mainContainer: {
       flex: 1,

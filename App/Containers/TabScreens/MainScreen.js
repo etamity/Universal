@@ -6,6 +6,9 @@ import { connect } from 'react-redux'
 import { StyleSheet } from 'react-native'
 import { ApplicationStyles } from '../../Themes/'
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Button } from 'teaset';
+import Parse          from 'parse/react-native';
+
 const styles = StyleSheet.create({
   ...ApplicationStyles.screen
 });
@@ -13,6 +16,7 @@ const styles = StyleSheet.create({
 class MainScreenClass extends Component {
   static navigationOptions = {
     tabBarLabel: 'Home',
+    headerTitle: 'Home',
     // Note: By default the icon is only shown on iOS. Search the showIcon option below.
     tabBarIcon: ({ tintColor, focused }) => (
       <Ionicons
@@ -22,12 +26,22 @@ class MainScreenClass extends Component {
       />
     ),
   };
+  constructor(props) {
+    super(props);
+    Parse.User.currentAsync().then((user)=>{
+      if (!user) {
+        this.props.navigation.navigate('LaunchScreen');
+      }
+    }).catch( err => {
+      console.log(err);
+    });
+
+  }
 
   render() {
     return (
       <ScrollView style={styles.container}>
         <KeyboardAvoidingView behavior='position'>
-          <Text>MainScreen</Text>
         </KeyboardAvoidingView>
       </ScrollView>
     )

@@ -5,10 +5,11 @@ import RoundedButton from 'App/Components/RoundedButton';
 import DevscreensButton from '../../ignite/DevScreens/DevscreensButton';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ScrollScreen from 'App/Components/ScrollScreen';
+import { NavigationActions } from 'react-navigation'
 // Styles
 import styles from './Styles/LaunchScreenStyles';
 import { Fonts, Colors, Metrics, Images } from 'App/Themes/';
-
+import { Button, ModalIndicator } from 'teaset'
 import Shared from 'App/Lib/Shared';
 import Parse          from 'parse/react-native';
 import Constants from 'App/Lib/Constants'
@@ -19,10 +20,17 @@ export default class LaunchScreen extends Component {
     this.showAuthScreen = this.showAuthScreen.bind(this);
   }
   doSocialLogin(type) {
+    ModalIndicator.show(`Logining with ${type}`);
     Shared.App.loginWithSocial(type).then(user => {
-      console.tron.display({user});
       if (user) {
-        this.props.navigation.navigate('MainTabScreen')
+        ModalIndicator.hide();
+        const resetAction = NavigationActions.reset({
+          index: 0,
+          actions: [
+            NavigationActions.navigate({ routeName: 'MainDrawerScreen'})
+          ]
+        });
+        this.props.navigation.dispatch(resetAction);        
       }
     });
   }
@@ -39,7 +47,6 @@ export default class LaunchScreen extends Component {
 
           <View style={styles.section} >
             <Image source={Images.ready} />
-            <DevscreensButton />
           </View>
           <View style={styles.sectionRow} >
             <RoundedButton text="Login" style={{backgroundColor: "#674172"}} onPress={() => { this.showAuthScreen(Constants.LOGIN)}} />

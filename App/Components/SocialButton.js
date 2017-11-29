@@ -23,9 +23,12 @@ export default class SocialButton extends Component {
         text: PropTypes.string,
         children: PropTypes.string,
         backgroundColor: PropTypes.string,
-        type: PropTypes.string
+        type: PropTypes.string,
+        enabled: PropTypes.bool,
     }
-
+    static defaultProps = {
+        enabled: true
+    }
     getText() {
         const buttonText = this.props.text || this.props.children || ''
         return buttonText.toUpperCase()
@@ -35,22 +38,22 @@ export default class SocialButton extends Component {
         let buttonStyle = styles.button;
         switch (this.props.type) {
             case 'facebook':
-            buttonStyle = styles.facebookButton;
-            break;
+                buttonStyle = styles.facebookButton;
+                break;
             case 'twitter':
-            buttonStyle = styles.twitterButton;
-            break;
+                buttonStyle = styles.twitterButton;
+                break;
             case 'google':
-            buttonStyle = styles.googleButton;
-            break;
+                buttonStyle = styles.googleButton;
+                break;
             default:
-            buttonStyle = styles.button;
+                buttonStyle = styles.button;
         }
         return (
-        <TouchableOpacity style={buttonStyle} onPress={this.props.onPress}>
-            <Icon style={styles.icon} name={this.props.type} color="#fff" />
-            <Text style={styles.buttonText}>{this.getText()}</Text>
-        </TouchableOpacity>
+            <TouchableOpacity style={buttonStyle} onPress={this.props.enabled ? this.props.onPress : null}>
+                <Icon style={styles.icon} name={this.props.type} color="#fff" />
+                <Text style={styles.buttonText}>{this.getText()}</Text>
+            </TouchableOpacity>
         )
     }
 }

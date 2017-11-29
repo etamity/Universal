@@ -13,8 +13,8 @@ import { GithubTypes } from '../Redux/GithubRedux'
 import { startup } from './StartupSagas'
 import { getUserAvatar } from './GithubSagas'
 
-import { LoginFromTypes } from '../Redux/LoginFromRedux'
-import { LoginAction, RegisterAction } from './LoginFromSagas'
+import { LoginFormTypes } from '../Redux/LoginFormRedux'
+import { LoginAction, RegisterAction } from './LoginSagas'
 
 /* ------------- API ------------- */
 
@@ -31,7 +31,7 @@ export default function * root () {
 
     // some sagas receive extra parameters in addition to an action
     takeLatest(GithubTypes.USER_REQUEST, getUserAvatar, api),
-    takeLatest(LoginFromTypes.LOGIN_REQUEST, LoginAction),
-    takeLatest(LoginFromTypes.REGISTER_REQUEST, RegisterAction)
+    takeLatest(LoginFormTypes.LOGIN_REQUEST, LoginAction),
+    takeLatest(LoginFormTypes.REGISTER_REQUEST, RegisterAction)
   ])
 }

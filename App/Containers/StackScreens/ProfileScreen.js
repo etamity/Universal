@@ -6,28 +6,32 @@ import { connect } from 'react-redux'
 import { StyleSheet } from 'react-native'
 import { ApplicationStyles } from '../../Themes/'
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {ListRow, Label} from 'teaset';
+
 const styles = StyleSheet.create({
   ...ApplicationStyles.screen
 });
 
 class ProfileScreenClass extends Component {
-  static navigationOptions = {
-    tabBarLabel: 'Profile',
-    // Note: By default the icon is only shown on iOS. Search the showIcon option below.
-    tabBarIcon: ({ tintColor, focused }) => (
-      <Ionicons
-      name={focused ? 'ios-profile' : 'ios-profile-outline'}
-      size={26}
-      style={{ color: tintColor }}
-    />
-    ),
-  };
+  static navigationOptions = ({ navigation, screenProps }) => {
+      return {
+        tabBarLabel: 'Profile',
+        headerTitle: `${navigation.state.params.userId}`,
+        // Note: By default the icon is only shown on iOS. Search the showIcon option below.
+        tabBarIcon: ({ tintColor, focused }) => (
+          <Ionicons
+          name={focused ? 'ios-profile' : 'ios-profile-outline'}
+          size={26}
+          style={{ color: tintColor }}
+        />
+        ),
+    };
+  }
 
   render() {
     return (
       <ScrollView style={styles.container}>
         <KeyboardAvoidingView behavior='position'>
-          <Text>Profile</Text>
         </KeyboardAvoidingView>
       </ScrollView>
     )
