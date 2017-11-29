@@ -48,20 +48,6 @@ class LoginScreen extends Component {
     }
 
   }
-
-  componentWillReceiveProps(props) {
-    if (!props.currentUser) {
-      ModalIndicator.hide();
-      const resetAction = NavigationActions.reset({
-        index: 0,
-        actions: [
-          NavigationActions.navigate({ routeName: 'MainDrawerScreen'})
-        ]
-      });
-      this.props.navigation.dispatch(resetAction);        
-    }
-  }
-
   onFormChange(data) {
     this.setState({ form: data });
   }

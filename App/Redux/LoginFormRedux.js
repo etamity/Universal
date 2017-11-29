@@ -7,6 +7,7 @@ const { Types, Creators } = createActions({
   loginRequest: ['payload'],
   logoutRequest: null,
   registerRequest: ['payload'],
+  loginWithSocialRequest: ['payload'],
 })
 
 export const LoginFromTypes = Types

@@ -1,2 +1,2 @@
-export * from './MainScreen';
+export * from './HomeScreen';
 export * from './MoreScreen';

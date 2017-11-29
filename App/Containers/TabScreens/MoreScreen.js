@@ -38,13 +38,6 @@ class MoreScreenClass extends Component {
     ModalIndicator.show('Loading ...');
     this.props.logOut();
   }
-
-  componentWillReceiveProps(props) {
-    if (!props.currentUser) {
-      this.props.navigation.navigate('LaunchScreen');
-      ModalIndicator.hide();
-    }
-  }
   render() {
     return (
       <ScrollView style={styles.container}>

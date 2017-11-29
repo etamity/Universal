@@ -92,8 +92,14 @@ export default class ParseApp {
     this.hasCheckedForMigraton = false;
 
     this.setParseKeys();
+    this.bindContext()
   }
+  bindContext() {
+    this.loginWithSocial = this.loginWithSocial.bind(this);
+    this.logoutSocial= this.logoutSocial.bind(this);
+    this._logInWith = this._logInWith.bind(this);
 
+  }
   setParseKeys() {
     Parse.serverURL = this.serverURL;
     Parse._initialize(this.applicationId, this.javascriptKey, this.masterKey);

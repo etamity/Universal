@@ -15,7 +15,8 @@ import { getUserAvatar } from './GithubSagas'
 
 import { LoginFromTypes } from '../Redux/LoginFormRedux'
 import { ApplicationTypes } from '../Redux/AppRedux'
-import { LoginAction, RegisterAction, LogoutAction, FetchCurrentUserAction } from './LoginSagas'
+import { LoginAction, RegisterAction, LogoutAction, 
+  FetchCurrentUserAction, LoginWithSocial } from './AuthSagas'
 
 
 
@@ -38,6 +39,7 @@ export default function * root () {
     takeLatest(LoginFromTypes.LOGIN_REQUEST, LoginAction),
     takeLatest(LoginFromTypes.REGISTER_REQUEST, RegisterAction),
     takeLatest(LoginFromTypes.LOGOUT_REQUEST, LogoutAction),
-    takeLatest(ApplicationTypes.FETCH_CURRENT_USER_ACTION, LogoutAction)
+    takeLatest(ApplicationTypes.FETCH_CURRENT_USER_ACTION, FetchCurrentUserAction),
+    takeLatest(LoginFromTypes.LOGIN_WITH_SOCIAL_REQUEST, LoginWithSocial)
   ])
 }

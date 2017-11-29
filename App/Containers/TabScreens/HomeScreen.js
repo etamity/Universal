@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
   ...ApplicationStyles.screen
 });
 
-class MainScreenClass extends Component {
+class HomeScreenClass extends Component {
   static navigationOptions = {
     tabBarLabel: 'Home',
     headerTitle: 'Home',
@@ -30,15 +30,8 @@ class MainScreenClass extends Component {
   };
   constructor(props) {
     super(props);
-    console.log(props);
-    // this.props.fetchCurrentUserAction();
   }
-  // componentWillReceiveProps(props) {
-  //   console.log(this.props.navigation.key);
-  //   if (!props.currentUser && this.props.navigation.key !=='LaunchScreen') {
-  //     this.props.navigation.navigate('LaunchScreen');        
-  //   }
-  // }
+
   render() {
     return (
       <ScrollView style={styles.container}>
@@ -57,8 +50,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchCurrentUserAction: ()=> dispatch(AppRedux.fetchCurrentUserAction())
   }
 }
 
-export const MainScreen = connect(mapStateToProps, mapDispatchToProps)(MainScreenClass)
+export const HomeScreen = connect(mapStateToProps, mapDispatchToProps)(HomeScreenClass)

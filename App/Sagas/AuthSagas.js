@@ -14,8 +14,9 @@ import { call, put } from 'redux-saga/effects'
 import AppRedux from '../Redux/AppRedux'
 import LoginFormRedux from '../Redux/LoginFormRedux'
 import Parse from 'parse/react-native';
+import Shared from 'App/Lib/Shared';
 
-export function * LoginAction(action) {
+export function* LoginAction(action) {
   const { username, password } = action.payload;
   try {
     const user = yield call(Parse.User.logIn, username, password);
@@ -28,13 +29,13 @@ export function * LoginAction(action) {
     payload = {
       message: error
     }
-    yield put(LoginFormRedux.requestFailure(payload));
+    //yield put(LoginFormRedux.requestFailure(payload));
     yield put(AppRedux.setCurrentUserAction(null));
   }
 
 }
 
-export function * RegisterAction(action) {
+export function* RegisterAction(action) {
   const { username, email, password } = action.payload;
 
   var user = new Parse.User();
@@ -53,21 +54,26 @@ export function * RegisterAction(action) {
     payload = {
       message: error
     }
-    yield put(LoginFormRedux.requestFailure(payload));
+    //yield put(LoginFormRedux.requestFailure(payload));
     yield put(AppRedux.setCurrentUserAction(null));
   }
 }
 
-export function * LogoutAction(){
+export function* LogoutAction() {
   try {
     const result = yield call(Parse.User.logOut);
     yield put(AppRedux.setCurrentUserAction(null));
+
   } catch (error) {
-    console.log(error);
+    payload = {
+      message: error
+    }
+    console.log('LogoutAction', error);
+    yield put(AppRedux.setCurrentUserAction(null));
   }
 
 }
-export function * FetchCurrentUserAction(){
+export function* FetchCurrentUserAction() {
 
   try {
     const user = yield call(Parse.User.currentAsync);
@@ -80,7 +86,30 @@ export function * FetchCurrentUserAction(){
     payload = {
       message: error
     }
-    yield put(LoginFormRedux.requestFailure(payload));
+    console.log(error);
+    //yield put(LoginFormRedux.requestFailure(payload));
+    yield put(AppRedux.setCurrentUserAction(null));
+  }
+}
+
+
+export function* LoginWithSocial(action) {
+  const { type } = action.payload;
+  try {
+    const user = yield call(Shared.App.loginWithSocial, type);
+
+    if (user) {
+      yield put(AppRedux.setCurrentUserAction(user));
+    } else {
+      yield put(AppRedux.setCurrentUserAction(null));
+    }
+  } catch (error) {
+
+    console.log(error);
+    payload = {
+      message: error
+    }
+    //yield put(LoginFormRedux.requestFailure(payload));
     yield put(AppRedux.setCurrentUserAction(null));
   }
 }
