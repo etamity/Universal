@@ -11,10 +11,11 @@ import Constants from 'App/Lib/Constants'
 import t from 'tcomb-form-native';
 let Form = t.form.Form
 import I18n from 'App/I18n';
-import AuthActions from 'App/Redux/LoginFormRedux'
-
+import LoginFormRedux from 'App/Redux/LoginFormRedux'
+import { Button, ModalIndicator } from 'teaset'
 // Styles
 import styles from './Styles/LoginScreenStyle'
+import { NavigationActions } from 'react-navigation'
 
 class LoginScreen extends Component {
   constructor(props) {
@@ -33,7 +34,7 @@ class LoginScreen extends Component {
   }
 
   doSubmit(type) {
-
+    ModalIndicator.show('Loading ...');
     switch (type) {
       case Constants.LOGIN:
       this.props.loginAction(this.state.form);
@@ -186,14 +187,15 @@ class LoginScreen extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    form: state.login
+    form: state.login,
+    currentUser: state.app.currentUser
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loginAction: (payload) => dispatch(AuthActions.loginRequest(payload)),
-    registerAction: (payload) => dispatch(AuthActions.registerRequest(payload))
+    loginAction: (payload) => dispatch(LoginFormRedux.loginRequest(payload)),
+    registerAction: (payload) => dispatch(LoginFormRedux.registerRequest(payload))
   }
 }
 

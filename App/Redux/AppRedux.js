@@ -4,7 +4,7 @@ import Immutable from 'seamless-immutable'
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
-  setCurrentUserAction: ['payload'],
+  setCurrentUserAction: ['user'],
   fetchCurrentUserAction: null
 })
 
@@ -14,14 +14,17 @@ export default Creators
 /* ------------- Initial State ------------- */
 
 export const INITIAL_STATE = Immutable({
-  currentUser: null,
+  currentUser: 0,
 })
 
 /* ------------- Reducers ------------- */
 
 // request the avatar for a user
-export const setCurrentUserAction = (state, { user }) =>
-  state.merge({ currentUser: user })
+
+export const setCurrentUserAction = (state, { user }) => {
+  console.log('setCurrentUserAction', user);
+  return state.merge({ currentUser: user });
+}
 
 /* ------------- Hookup Reducers To Types ------------- */
 

@@ -10,12 +10,12 @@ import { NavigationActions } from 'react-navigation'
 import styles from './Styles/LaunchScreenStyles';
 import { Fonts, Colors, Metrics, Images } from 'App/Themes/';
 import { Button, ModalIndicator } from 'teaset'
-import Shared from 'App/Lib/Shared';
 import Parse          from 'parse/react-native';
 import Constants from 'App/Lib/Constants'
-import { SocialConfig } from 'App/Config/AppConfig';
-import Expo from 'expo';
-export default class LaunchScreen extends Component {
+import { connect } from 'react-redux'
+import LoginFormRedux from 'App/Redux/LoginFormRedux'
+
+class LaunchScreenClass extends Component {
   constructor(props) {
     super(props);
     this.doSocialLogin = this.doSocialLogin.bind(this);
@@ -23,21 +23,23 @@ export default class LaunchScreen extends Component {
   }
   doSocialLogin(type) {
     ModalIndicator.show(`Logining with ${type}`);
-    Shared.App.loginWithSocial(type).then(user => {
-      if (user) {
-        ModalIndicator.hide();
-        const resetAction = NavigationActions.reset({
-          index: 0,
-          actions: [
-            NavigationActions.navigate({ routeName: 'MainDrawerScreen'})
-          ]
-        });
-        this.props.navigation.dispatch(resetAction);        
-      }
-    });
+    const payload = { type };
+    this.props.loginWithSocialRequest(payload);
   }
   showAuthScreen(type) {
     this.props.navigation.navigate('LoginScreen', {type})
+  }
+  componentWillReceiveProps(props) {
+    if (props.currentUser) {
+      ModalIndicator.hide();
+      const resetAction = NavigationActions.reset({
+          index: 0,
+          actions: [
+              NavigationActions.navigate({ routeName: 'MainScreen' })
+          ]
+      });
+      this.props.navigation.dispatch(resetAction);
+    }
   }
   render () {
 
@@ -69,3 +71,17 @@ export default class LaunchScreen extends Component {
     )
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+      currentUser: state.app.currentUser
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loginWithSocialRequest: (payload) => dispatch(LoginFormRedux.loginWithSocialRequest(payload))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LaunchScreenClass)

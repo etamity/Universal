@@ -16,9 +16,9 @@ const screens = Object.keys(StackScreens).reduce((routes, key, index) => {
 
   return routes;
 }, {
-  MainTabScreen: {
-    screen: MainTabScreen,
-  }
+    MainTabScreen: {
+      screen: MainTabScreen,
+    }
   });
 
 

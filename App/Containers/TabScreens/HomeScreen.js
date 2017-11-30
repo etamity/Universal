@@ -8,12 +8,14 @@ import { ApplicationStyles } from '../../Themes/'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Button } from 'teaset';
 import Parse          from 'parse/react-native';
+import AppRedux from 'App/Redux/AppRedux';
+import { NavigationActions } from 'react-navigation'
 
 const styles = StyleSheet.create({
   ...ApplicationStyles.screen
 });
 
-class MainScreenClass extends Component {
+class HomeScreenClass extends Component {
   static navigationOptions = {
     tabBarLabel: 'Home',
     headerTitle: 'Home',
@@ -28,14 +30,6 @@ class MainScreenClass extends Component {
   };
   constructor(props) {
     super(props);
-    Parse.User.currentAsync().then((user)=>{
-      if (!user) {
-        this.props.navigation.navigate('LaunchScreen');
-      }
-    }).catch( err => {
-      console.log(err);
-    });
-
   }
 
   render() {
@@ -50,6 +44,7 @@ class MainScreenClass extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    currentUser: state.app.currentUser
   }
 }
 
@@ -58,4 +53,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export const MainScreen = connect(mapStateToProps, mapDispatchToProps)(MainScreenClass)
+export const HomeScreen = connect(mapStateToProps, mapDispatchToProps)(HomeScreenClass)
