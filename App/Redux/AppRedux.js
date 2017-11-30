@@ -20,11 +20,11 @@ export const INITIAL_STATE = Immutable({
 /* ------------- Reducers ------------- */
 
 // request the avatar for a user
+
 export const setCurrentUserAction = (state, { user }) => {
   console.log('setCurrentUserAction', user);
   return state.merge({ currentUser: user });
 }
- 
 
 /* ------------- Hookup Reducers To Types ------------- */
 

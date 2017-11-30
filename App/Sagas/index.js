@@ -19,8 +19,6 @@ import { LoginAction, RegisterAction, LogoutAction,
   FetchCurrentUserAction, LoginWithSocial } from './AuthSagas'
 
 
-
-
 /* ------------- API ------------- */
 
 // The API we use is only used from Sagas, so we create it here and pass along

@@ -11,6 +11,7 @@ const { Types, Creators } = createActions({
 })
 
 export const LoginFromTypes = Types
+
 export default Creators
 
 /* ------------- Initial State ------------- */
@@ -45,10 +46,10 @@ export const loginRequest = (state, {username, password}) => {
 export const registerRequest = (state, { username, password, email }) =>
   state.merge({ fetching: true, username, password, email })
 
-
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.LOGIN_REQUEST]: loginRequest,
   [Types.REGISTER_REQUEST]: registerRequest
+
 })

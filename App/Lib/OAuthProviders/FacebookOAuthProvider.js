@@ -1,59 +1,86 @@
 import Parse from 'parse/react-native';
-import parseDate from 'parse/lib/react-native/parseDate'; 
+import parseDate from 'parse/lib/react-native/parseDate';
 import { SocialConfig } from 'App/Config/AppConfig';
-
+import Expo from 'expo';
 export class FacebookOAuthProvider {
-    constructor(manager) {
-        this.manager = manager;
-    }
-
     authenticate(options) {
-       return this.manager.authorize('facebook', { scopes: 'public_profile,email,user_friends' })
-         .then(resp => {
-           if (!resp || !resp.response || !resp.response.authorized) {
-             return Parse.Promise.as(resp);
-           }
-           return this.manager
-            .makeRequest('facebook', '/oauth/access_token', {
-                params: {
-                    redirect_uri: SocialConfig.facebook.callback_url,
-                    client_id: SocialConfig.facebook.client_id,
-                    client_secret: SocialConfig.facebook.client_secret,
-                    fb_exchange_token: resp.response.credentials.accessToken,
-                    grant_type: 'fb_exchange_token',
-                }
-            }).then(resp => {
-                if (resp.status !== 200) {
-                    console.log(resp);
-                    return Parse.Promise.as(resp);
-                }
-                const credentials = resp.data;
-                return this.manager.makeRequest('facebook', '/me?fields=id,name,email,gender').then(resp => {
+        return new Promise((resolve, reject)=> {
+            let access_token = '';
+            let expires_in = null;
+            Expo.Facebook.logInWithReadPermissionsAsync(SocialConfig.facebook.client_id, {
+                permissions: ['public_profile', 'email', 'user_birthday', 'user_friends'],
+                behavior: 'browser',
+            }).then((response) => {
+                    switch (response.type) {
+                        case 'success':
+                            // token is a string giving the access token to use 
+                            // with Facebook HTTP API requests.
+                            expires_in = response.expires;
+                            return response.token;
+                        case 'cancel':
+                            reject({
+                                type: 'error',
+                                msg: 'login canceled'
+                            })
+                            break;
+                        default:
+                            reject({
+                                type: 'error',
+                                msg: 'login failed'
+                            })
+                    }
+                })
+                .then((token) => {
+                    access_token = token;
+                    return fetch(`https://graph.facebook.com/me?fields=id,name,email,birthday,gender&access_token=${access_token}`);
+                })
+                .then((response) => {
+                    return response.json();
+                })
+                .then((facebookJSONResponse) => {
+                    if (facebookJSONResponse.hasOwnProperty('error')) {
+                        reject({
+                            type: 'error',
+                        });
+                    }
+                    console.log(facebookJSONResponse);
                     let authData = {
-                        id: resp.data.id,
-                        access_token: credentials.access_token,
-                        expiration_date: new Date(credentials.expires_in * 1000 +
+                        id: facebookJSONResponse.id,
+                        access_token: access_token,
+                        expiration_date: new Date(expires_in * 1000 +
                             (new Date()).getTime()).toJSON(),
-                        email: resp.data.email
+                        email: facebookJSONResponse.email
                     };
+        
                     if (options.success) {
                         options.success(this, authData);
                     }
-                    return Parse.Promise.as(authData);
+
+                    resolve(authData);
+
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    reject({
+                        type: 'error',
+                        msg: 'Facebook login failed'
+                    })
                 });
-            });
         });
+
     }
 
     restoreAuthentication(authData) {
-        if (authData) {
-            this.manager.makeRequest('facebook', '/me').then(resp => {
-                if (resp.status !== 200 || authData.id !== resp.data.id) {
-                    this.manager.deauthorize('facebook');
-                }
-            });
+        // if (authData) {
+        //     fetch(`https://graph.facebook.com/me?fields=id,name,email,birthday,gender&access_token=${authData.access_token}`).then((response) => {
+        //         return response.json();
+        //     }).then(resp => {
+        //         if (resp.status !== 200 || authData.id !== resp.data.id) {
+        //             Parse.User.logOut();
+        //         }
+        //     });
 
-        }
+        // }
         return true;
     }
 

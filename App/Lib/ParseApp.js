@@ -8,7 +8,7 @@
 import * as AJAX from 'App/Lib/Utils/AJAX';
 import encodeFormData from 'App/Lib/Utils/encodeFormData';
 import Parse from 'parse/react-native';
-import OAuthManager, { registerOAuthProvider } from './OAuthManager';
+import { registerOAuthProvider } from 'App/Lib/Shared';
 
 function setEnablePushSource(setting, enable) {
   let path = `/apps/${this.slug}/update_push_notifications`;
@@ -65,10 +65,7 @@ export default class ParseApp {
     this.serverInfo = serverInfo;
     this.icon = iconName;
     this.description = description;
-    if (socialConfig) {
-      this.socialConfig = socialConfig
-      OAuthManager.configure(socialConfig);
-    }
+
     this.settings = {
       fields: {},
       lastFetched: new Date(0)
@@ -855,17 +852,10 @@ export default class ParseApp {
     return promise;
   }
   logoutSocial(type) {
-    OAuthManager.deauthorize(type)
-      .then(resp => {
-        console.log(resp);
-      }).catch(error => {
-        console.log(error);
-      });
     Parse.User.logOut();
   }
 
   loginWithSocial(type) {
-    this.logoutSocial(type);
     return this._logInWith(type).then((user) => {
       if (!user.existed()) {
         const email = user.get('authData')[type].email;
