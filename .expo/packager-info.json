@@ -1,8 +1,8 @@
 {
   "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 82847,
-  "expoServerNgrokUrl": "https://jd-mbg.etamity.universal.exp.direct",
-  "packagerNgrokUrl": "https://packager.jd-mbg.etamity.universal.exp.direct",
-  "ngrokPid": 82865
+  "packagerPort": 19003,
+  "packagerPid": 89661,
+  "expoServerNgrokUrl": "https://a6-67c.etamity.universal.exp.direct",
+  "packagerNgrokUrl": "https://packager.a6-67c.etamity.universal.exp.direct",
+  "ngrokPid": 89685
 }

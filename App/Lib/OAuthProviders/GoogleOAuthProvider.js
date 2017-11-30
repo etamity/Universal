@@ -16,7 +16,7 @@ export class GoogleOAuthProvider {
                 behavior: 'web'
             })
             .then((response) => {
-                    console.log(response);
+                console.log('response', response);
                     switch (response.type) {
                         case 'success':
                             const authData = Object.assign({}, response.user, {
@@ -25,15 +25,14 @@ export class GoogleOAuthProvider {
                                 serverAuthCode: response.serverAuthCode,
                                 refreshToken: response.refreshToken
                             });
-
-                            if (response.user.emails.length > 0) {
+                            console.log('authData', authData);
+                            if (response.user.emails && response.user.emails.length > 0) {
                                 authData.email = response.user.emails[0].value;
                             }
-
-                            resolve(resolve({
-                                type: 'success',
-                                credentials
-                            }));
+                            if (options.success) {
+                                options.success(this, authData);
+                            }
+                            resolve(authData);
                         case 'cancel':
                             reject({
                                 type: 'error',
