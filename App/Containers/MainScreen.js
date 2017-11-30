@@ -13,7 +13,7 @@ class MainDrawerScreenClass extends Component {
     }
     componentWillReceiveProps(props) {
         console.log(props)
-        if (!props.currentUser && this.props.navigation.key !== 'LaunchScreen') {
+        if (!props.currentUser && this.props.navigation.state.routeName !== 'LaunchScreen') {
             ModalIndicator.hide();
             const resetAction = NavigationActions.reset({
                 index: 0,

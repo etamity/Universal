@@ -30,16 +30,16 @@ class LaunchScreenClass extends Component {
     this.props.navigation.navigate('LoginScreen', {type})
   }
   componentWillReceiveProps(props) {
-    if (props.currentUser) {
-      ModalIndicator.hide();
-      const resetAction = NavigationActions.reset({
-          index: 0,
-          actions: [
-              NavigationActions.navigate({ routeName: 'MainScreen' })
-          ]
-      });
-      this.props.navigation.dispatch(resetAction);
-    }
+    // if (props.currentUser && this.props.navigation.state.routeName !== 'MainScreen') {
+    //   ModalIndicator.hide();
+    //   const resetAction = NavigationActions.reset({
+    //       index: 0,
+    //       actions: [
+    //           NavigationActions.navigate({ routeName: 'MainScreen' })
+    //       ]
+    //   });
+    //   this.props.navigation.dispatch(resetAction);
+    // }
   }
   render () {
 
