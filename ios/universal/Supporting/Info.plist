@@ -21,10 +21,6 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLName</key>
-			<string>Facebook</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>fb1706321676305607</string>
@@ -37,6 +33,16 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>innovation.apps.com.Universal</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>Google</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.547912089250-6mr9u4e5ne8dofaip1fnrp3ffetpc20v</string>
 			</array>
 		</dict>
 	</array>
@@ -60,6 +66,10 @@
 	<string>1706321676305607</string>
 	<key>FacebookDisplayName</key>
 	<string>SwapAnt</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbauth2</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>

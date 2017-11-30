@@ -4,18 +4,18 @@ import { SocialConfig } from 'App/Config/AppConfig';
 import Expo from 'expo';
 export class FacebookOAuthProvider {
     authenticate(options) {
-        return new Promise(function (resolve, reject) {
-            let accessToken = '';
+        return new Promise((resolve, reject)=> {
+            let access_token = '';
+            let expires_in = null;
             Expo.Facebook.logInWithReadPermissionsAsync(SocialConfig.facebook.client_id, {
                 permissions: ['public_profile', 'email', 'user_birthday', 'user_friends'],
-                behavior: 'native',
-            })
-                .then((response) => {
-                    console.log('response',response);
+                behavior: 'browser',
+            }).then((response) => {
                     switch (response.type) {
                         case 'success':
                             // token is a string giving the access token to use 
                             // with Facebook HTTP API requests.
+                            expires_in = response.expires;
                             return response.token;
                         case 'cancel':
                             reject({
@@ -31,30 +31,32 @@ export class FacebookOAuthProvider {
                     }
                 })
                 .then((token) => {
-                    accessToken = token;
-                    return fetch(`https://graph.facebook.com/me?fields=id,name,email,birthday,gender&access_token=${accessToken}`);
+                    access_token = token;
+                    return fetch(`https://graph.facebook.com/me?fields=id,name,email,birthday,gender&access_token=${access_token}`);
                 })
                 .then((response) => {
                     return response.json();
                 })
                 .then((facebookJSONResponse) => {
-                    console.log('facebookJSONResponse', facebookJSONResponse);
                     if (facebookJSONResponse.hasOwnProperty('error')) {
                         reject({
                             type: 'error',
                         });
                     }
+                    console.log(facebookJSONResponse);
                     let authData = {
-                        id: facebookJSONResponse.data.id,
+                        id: facebookJSONResponse.id,
                         access_token: access_token,
-                        expiration_date: new Date(facebookJSONResponse.expires_in * 1000 +
+                        expiration_date: new Date(expires_in * 1000 +
                             (new Date()).getTime()).toJSON(),
-                        email: facebookJSONResponse.data.email
+                        email: facebookJSONResponse.email
                     };
+        
                     if (options.success) {
                         options.success(this, authData);
                     }
-                    return Parse.Promise.as(authData);
+
+                    resolve(authData);
 
                 })
                 .catch(function (error) {
@@ -69,14 +71,16 @@ export class FacebookOAuthProvider {
     }
 
     restoreAuthentication(authData) {
-        if (authData) {
-            fetch(`https://graph.facebook.com/me?fields=id,name,email,birthday,gender&access_token=${authData.access_token}`).then(resp => {
-                if (resp.status !== 200 || authData.id !== resp.data.id) {
+        // if (authData) {
+        //     fetch(`https://graph.facebook.com/me?fields=id,name,email,birthday,gender&access_token=${authData.access_token}`).then((response) => {
+        //         return response.json();
+        //     }).then(resp => {
+        //         if (resp.status !== 200 || authData.id !== resp.data.id) {
+        //             Parse.User.logOut();
+        //         }
+        //     });
 
-                }
-            });
-
-        }
+        // }
         return true;
     }
 

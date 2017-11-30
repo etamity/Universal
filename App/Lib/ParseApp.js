@@ -850,7 +850,6 @@ export default class ParseApp {
   }
 
   loginWithSocial(type) {
-    this.logoutSocial(type);
     return this._logInWith(type).then((user) => {
       if (!user.existed()) {
         const email = user.get('authData')[type].email;

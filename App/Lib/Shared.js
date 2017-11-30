@@ -7,7 +7,9 @@ const App = new ParseApp(ParseConfig, SocialConfig);
 
 export function registerOAuthProvider() {
     for (key in OAuthProviders) {
-        Parse.User._registerAuthenticationProvider(new OAuthProviders[key]());
+        const provider = new OAuthProviders[key]();
+        console.log('provider', provider);
+        Parse.User._registerAuthenticationProvider(provider);
     }
 }
 

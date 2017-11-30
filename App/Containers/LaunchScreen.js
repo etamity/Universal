@@ -13,6 +13,8 @@ import { Button, ModalIndicator } from 'teaset'
 import Shared from 'App/Lib/Shared';
 import Parse          from 'parse/react-native';
 import Constants from 'App/Lib/Constants'
+import { SocialConfig } from 'App/Config/AppConfig';
+import Expo from 'expo';
 export default class LaunchScreen extends Component {
   constructor(props) {
     super(props);

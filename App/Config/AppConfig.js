@@ -32,6 +32,8 @@ export const SocialConfig = {
 
   google: {
     callback_url: 'com.googleusercontent.apps.547912089250-6mr9u4e5ne8dofaip1fnrp3ffetpc20v:/google',
-    client_id: '547912089250-6mr9u4e5ne8dofaip1fnrp3ffetpc20v.apps.googleusercontent.com'
+    ios_client_id: '547912089250-6mr9u4e5ne8dofaip1fnrp3ffetpc20v.apps.googleusercontent.com',
+    android_client_id: '547912089250-23k8jcaf9ibp1t5domgd82k33odn1sct.apps.googleusercontent.com',
+    web_client_id: '547912089250-dulnql975oi7qvi6goo119jq1lne0ban.apps.googleusercontent.com'
   }
 }

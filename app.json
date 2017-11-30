@@ -9,7 +9,12 @@
     "ios": {
       "bundleIdentifier": "innovation.apps.com.Universal",
       "publishBundlePath": "ios/universal/Supporting/shell-app.bundle",
-      "publishManifestPath": "ios/universal/Supporting/shell-app-manifest.json"
+      "publishManifestPath": "ios/universal/Supporting/shell-app-manifest.json",
+      "config": {
+        "googleSignIn": {
+          "reservedClientId": "com.googleusercontent.apps.547912089250-6mr9u4e5ne8dofaip1fnrp3ffetpc20v"
+        }
+      }
     },
     "android": {
       "package": "innovation.apps.com.Universal"
