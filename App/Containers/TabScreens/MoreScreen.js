@@ -35,7 +35,7 @@ class MoreScreenClass extends Component {
 
   }
   _logoutAction() {
-    ModalIndicator.show('Loading ...');
+    ModalIndicator.show('Logout ...');
     this.props.logOut();
   }
   render() {

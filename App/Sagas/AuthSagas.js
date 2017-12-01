@@ -11,10 +11,12 @@
 *************************************************************/
 
 import { call, put } from 'redux-saga/effects'
-import AppRedux from '../Redux/AppRedux'
+import AppRedux, { setCurrentUserAction } from '../Redux/AppRedux'
 import LoginFormRedux from '../Redux/LoginFormRedux'
 import Parse from 'parse/react-native';
 import Shared from 'App/Lib/Shared';
+import { NavigationActions } from 'react-navigation'
+import { ModalIndicator } from 'teaset'
 
 export function* LoginAction(action) {
   const { username, password } = action.payload;
@@ -112,4 +114,23 @@ export function* LoginWithSocial(action) {
     //yield put(LoginFormRedux.requestFailure(payload));
     yield put(AppRedux.setCurrentUserAction(null));
   }
+}
+
+export function* NavigationRedirect(action) {
+  ModalIndicator.hide();
+  const { user } = action;
+  let routeName = 'MainScreen';
+  if (user) {
+    routeName = 'MainScreen';
+  } else {
+    routeName = 'LaunchScreen';
+  }
+  const resetAction = NavigationActions.reset({
+    index: 0,
+    key: null,
+    actions: [
+      NavigationActions.navigate({ routeName })
+    ]
+  });
+  yield put(resetAction);
 }

@@ -6,7 +6,7 @@ import { StackNavigator } from 'react-navigation'
 import MainTabScreen from '../Containers/MainTabScreen'
 import MainStackScreen from '../Containers/MainStackScreen'
 import MainDrawerScreen from '../Containers/MainDrawerScreen'
-
+import AppRedux from 'App/Redux/AppRedux';
 import LoginScreen from 'App/Containers/LoginScreen'
 import LaunchScreen from 'App/Containers/LaunchScreen'
 import styles from 'App/Navigation/Styles/NavigationStyles'
@@ -24,4 +24,5 @@ function ReduxNavigation (props) {
 const mapStateToProps = state => ({ 
   nav: state.nav
  })
+
 export default connect(mapStateToProps)(ReduxNavigation)

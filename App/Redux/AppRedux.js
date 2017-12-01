@@ -14,7 +14,7 @@ export default Creators
 /* ------------- Initial State ------------- */
 
 export const INITIAL_STATE = Immutable({
-  currentUser: 0,
+  currentUser: null,
 })
 
 /* ------------- Reducers ------------- */

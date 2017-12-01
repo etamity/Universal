@@ -7,7 +7,7 @@
     "sdkVersion": "23.0.0",
     "appKey": "Universal",
     "ios": {
-      "bundleIdentifier": "innovation.apps.com.Universal",
+      "bundleIdentifier": "innovation.apps.com.universal",
       "publishBundlePath": "ios/universal/Supporting/shell-app.bundle",
       "publishManifestPath": "ios/universal/Supporting/shell-app-manifest.json",
       "config": {
@@ -17,7 +17,7 @@
       }
     },
     "android": {
-      "package": "innovation.apps.com.Universal"
+      "package": "innovation.apps.com.universal"
     },
     "isDetached": true,
     "facebookScheme": "fb1706321676305607",

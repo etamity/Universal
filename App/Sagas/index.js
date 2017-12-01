@@ -15,8 +15,10 @@ import { getUserAvatar } from './GithubSagas'
 
 import { LoginFromTypes } from '../Redux/LoginFormRedux'
 import { ApplicationTypes } from '../Redux/AppRedux'
-import { LoginAction, RegisterAction, LogoutAction, 
-  FetchCurrentUserAction, LoginWithSocial } from './AuthSagas'
+import {
+  LoginAction, RegisterAction, LogoutAction,
+  FetchCurrentUserAction, LoginWithSocial, NavigationRedirect
+} from './AuthSagas'
 
 
 /* ------------- API ------------- */
@@ -27,7 +29,7 @@ const api = DebugConfig.useFixtures ? FixtureAPI : API.create()
 
 /* ------------- Connect Types To Sagas ------------- */
 
-export default function * root () {
+export default function* root() {
   yield all([
     // some sagas only receive an action
     takeLatest(StartupTypes.STARTUP, startup),
@@ -38,6 +40,7 @@ export default function * root () {
     takeLatest(LoginFromTypes.REGISTER_REQUEST, RegisterAction),
     takeLatest(LoginFromTypes.LOGOUT_REQUEST, LogoutAction),
     takeLatest(ApplicationTypes.FETCH_CURRENT_USER_ACTION, FetchCurrentUserAction),
-    takeLatest(LoginFromTypes.LOGIN_WITH_SOCIAL_REQUEST, LoginWithSocial)
+    takeLatest(LoginFromTypes.LOGIN_WITH_SOCIAL_REQUEST, LoginWithSocial),
+    takeLatest(ApplicationTypes.SET_CURRENT_USER_ACTION, NavigationRedirect)
   ])
 }

@@ -1,13 +1,12 @@
 import { StackNavigator } from 'react-navigation'
-import MainScreen from '../Containers/MainScreen'
+import MainDrawerScreen from '../Containers/MainDrawerScreen'
 
 import LoginScreen from 'App/Containers/LoginScreen'
 import LaunchScreen from 'App/Containers/LaunchScreen'
 import styles from 'App/Navigation/Styles/NavigationStyles'
 
-// Manifest of possible screens
 const AppNavigation = StackNavigator({
-  MainScreen: { screen: MainScreen },
+  MainScreen: { screen: MainDrawerScreen },
   LaunchScreen: { screen: LaunchScreen },
   LoginScreen: { screen: LoginScreen }
 }, {
@@ -18,4 +17,5 @@ const AppNavigation = StackNavigator({
     headerStyle: styles.header
   }
 })
-export default AppNavigation
+
+export default AppNavigation;

@@ -43,7 +43,7 @@ export class FacebookOAuthProvider {
                             type: 'error',
                         });
                     }
-                    console.log(facebookJSONResponse);
+
                     let authData = {
                         id: facebookJSONResponse.id,
                         access_token: access_token,
