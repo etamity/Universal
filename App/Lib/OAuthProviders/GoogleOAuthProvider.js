@@ -23,7 +23,8 @@ export class GoogleOAuthProvider {
                                 access_token: response.accessToken,
                                 idToken: response.idToken,
                                 serverAuthCode: response.serverAuthCode,
-                                refreshToken: response.refreshToken
+                                refreshToken: response.refreshToken,
+                                user: response.user
                             });
                             console.log('authData', authData);
                             if (response.user.emails && response.user.emails.length > 0) {

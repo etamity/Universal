@@ -1,6 +1,6 @@
 import { createReducer, createActions } from 'reduxsauce'
 import Immutable from 'seamless-immutable'
-
+import Shared from 'APP/Lib/Shared'
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
@@ -22,7 +22,7 @@ export const INITIAL_STATE = Immutable({
 // request the avatar for a user
 
 export const setCurrentUserAction = (state, { user }) => {
-  console.log('setCurrentUserAction', user);
+  Shared.currentUser = user;
   return state.merge({ currentUser: user });
 }
 

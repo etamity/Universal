@@ -119,8 +119,9 @@ export function* LoginWithSocial(action) {
 export function* NavigationRedirect(action) {
   ModalIndicator.hide();
   const { user } = action;
+  const current = yield Parse.User.current();
   let routeName = 'MainScreen';
-  if (user) {
+  if (user && user.id === current.id) {
     routeName = 'MainScreen';
   } else {
     routeName = 'LaunchScreen';

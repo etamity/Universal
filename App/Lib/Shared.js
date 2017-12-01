@@ -5,14 +5,15 @@ import * as OAuthProviders from 'App/Lib/OAuthProviders';
 
 const App = new ParseApp(ParseConfig, SocialConfig);
 
+console.log(current().next());
 export function registerOAuthProvider() {
     for (key in OAuthProviders) {
         const provider = new OAuthProviders[key]();
-        console.log('provider', provider);
         Parse.User._registerAuthenticationProvider(provider);
     }
 }
 
 export default Shared = {
-    App
+    App,
+    currentUser: null
 }

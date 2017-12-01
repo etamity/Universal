@@ -32,23 +32,42 @@ class MoreScreenClass extends Component {
   constructor(props) {
     super(props);
     this._logoutAction = this._logoutAction.bind(this);
-
+    this._getUsername = this._getUsername.bind(this);
+    this._getUserId = this._getUserId.bind(this);
+    this._settingsAction = this._settingsAction.bind(this);
+    this._goToProfileScreen = this._goToProfileScreen.bind(this);
+    
   }
   _logoutAction() {
     ModalIndicator.show('Logout ...');
     this.props.logOut();
+  }
+  _getUsername(){ 
+    return Parse.User.current() && Parse.User.current().get('username') && Parse.User.current().get('displayName') || '';
+  }
+  _getUserId(){
+    return Parse.User.current() && Parse.User.current().id || ''
+  }
+  _settingsAction() {
+    console.log(this.props.currentUser, Parse.User.current());
+  }
+
+  _goToProfileScreen() {
+    //console.log(this.props.currentUser, Parse.User.current());
+    this.props.navigation.navigate('ProfileScreen', {displayName: this._getUsername()});
   }
   render() {
     return (
       <ScrollView style={styles.container}>
         <KeyboardAvoidingView behavior='position'>
           <ListRow
-            title="Joey"
-            detail="SwapAnt ID: 12345"
+            title={this._getUsername()}
+            detail={`SwapAnt ID: ${this._getUserId()}`}
             titlePlace="top"
             accessory="indicator"
             topSeparator="none"
             bottomSeparator="none"
+            onPress={this._goToProfileScreen}
             icon={<Image
               style={{ width: 60, height: 60, borderRadius: 5, marginHorizontal: 12 }}
               source={require('../../../assets/avatar/me.jpg')} />} />
@@ -56,6 +75,7 @@ class MoreScreenClass extends Component {
           <ListRow
             title='Settings' icon={<Ionicons style={{ marginHorizontal: 16 }} size={26} name="md-settings" color={Colors.fire} />}
             topSeparator="none"
+            onPress={this._settingsAction}
             accessory="indicator" />
           <ListRow
             title='Logout' icon={<Ionicons style={{ marginHorizontal: 16 }} size={26} name="md-power" color={Colors.fire} />} onPress={this._logoutAction} bottomSeparator="none"

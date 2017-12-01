@@ -43,9 +43,10 @@ export class FacebookOAuthProvider {
                             type: 'error',
                         });
                     }
-
+                    console.log(facebookJSONResponse);
                     let authData = {
                         id: facebookJSONResponse.id,
+                        user: facebookJSONResponse,
                         access_token: access_token,
                         expiration_date: new Date(expires_in * 1000 +
                             (new Date()).getTime()).toJSON(),

@@ -857,18 +857,22 @@ export default class ParseApp {
 
   loginWithSocial(type) {
     return this._logInWith(type).then((user) => {
+      console.log(typeof user)
       if (!user.existed()) {
+        const displayName = user.get('authData')[type].user.name;
         const email = user.get('authData')[type].email;
-        if (email) {
-          user.save({ email }).then(() => {
-            console.log(`User signed up and logged in ${type}!`);
-          }).catch(err => console.log('User update error', err));
-        } else {
-          console.log(`User signed up and logged in ${type}!`);
+
+        if (displayName) {
+          user.set({ displayName });
         }
-      } else {
-        console.log(`User signed up and logged in ${type}!`);
-      }
+        if (email) {
+          user.set({ email });
+        }
+        user.save().then(() => {
+            console.log(`User signed up and logged in ${type}!`);
+        }).catch(err => console.log('User update error', err));
+        
+      } 
       return Parse.Promise.as(user);
 
     }).catch(err => console.log('There was an error', err));
