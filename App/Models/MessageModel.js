@@ -2,28 +2,29 @@ import React, { Component } from 'react'
 import Parse from 'parse/react-native';
 import keyMirror from 'key-mirror'
 
-const COLLECTION = 'Chat';
+const COLLECTION = 'Message';
 const fields = keyMirror({
     user: null,
     groupId: null,
-    text: null,
-    picture: null,
-    video: null,
-    createdAt: null
+    description: null,
+    lastUser: null,
+    lastMessage: null,
+    counter: null,
+    updatedAction: null
 });
-class ChatModel extends Parse.Object {
+class MessageModel extends Parse.Object {
 
     constructor() {
       // Pass the ClassName to the Parse.Object constructor
       super(COLLECTION);
       // All other initialization
     }
-    addMessage({user, groupId, text, picture, video}) {
+    addMessage({user, groupId, description, lastUser, counter}) {
         this.set('user', user);
         this.set('groupId', groupId);
-        this.set('text', text);
-        this.set('picture', picture);
-        this.set('video', video);
+        this.set('description', description);
+        this.set('lastUser', lastUser);
+        this.set('counter', counter);
         return this.save();
     }
     getLists() {
@@ -32,6 +33,6 @@ class ChatModel extends Parse.Object {
     }
   }
 
-  Parse.Object.registerSubclass(COLLECTION, ChatModel);
+  Parse.Object.registerSubclass(COLLECTION, MessageModel);
 
-  export default ChatModel;
+  export default MessageModel;
