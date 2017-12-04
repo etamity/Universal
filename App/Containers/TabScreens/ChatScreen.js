@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux'
-import Messages from 'App/Models/Messages'
 
 class ChatScreenClass extends Component {
 
