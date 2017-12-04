@@ -1,6 +1,6 @@
 import { createReducer, createActions } from 'reduxsauce'
 import Immutable from 'seamless-immutable'
-import Shared from 'APP/Lib/Shared'
+import Shared from 'App/Lib/Shared'
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
@@ -15,6 +15,8 @@ export default Creators
 
 export const INITIAL_STATE = Immutable({
   currentUser: null,
+  settings: {},
+  
 })
 
 /* ------------- Reducers ------------- */
