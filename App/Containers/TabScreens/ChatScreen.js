@@ -1,12 +1,18 @@
 import React, { Component } from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux'
+import {Theme, ListRow, NavigationBar, Label} from 'teaset';
 
 class ChatScreenClass extends Component {
 
     static navigationOptions = {
         tabBarLabel: 'Chat',
         headerTitle: 'Chat',
+        headerRight: <NavigationBar.IconButton icon={<Ionicons
+            name={'ios-add'}
+            size={26}
+        style={{ color: 'white' }}  
+        iconContainerStyle={{height:30}} /> } />,
         // Note: By default the icon is only shown on iOS. Search the showIcon option below.
         tabBarIcon: ({ tintColor, focused }) => (
             <Ionicons
@@ -21,13 +27,6 @@ class ChatScreenClass extends Component {
     };
 
     componentDidMount(){
-        var messages = new Messages();
-        messages.addMessage({
-            from: 'joey',
-            message: 'message',
-            to: 'haha'
-        });
-        messages.save();
     }
 
     render() {
