@@ -1,8 +1,8 @@
 {
-  "expoServerPort": 19000,
-  "packagerPort": 19003,
-  "packagerPid": 55318,
-  "expoServerNgrokUrl": "https://gq-3qt.etamity.universal.exp.direct",
-  "packagerNgrokUrl": "https://packager.gq-3qt.etamity.universal.exp.direct",
-  "ngrokPid": 54309
+  "expoServerPort": 19001,
+  "packagerPort": 19002,
+  "packagerPid": 29828,
+  "expoServerNgrokUrl": "https://tc-4h5.etamity.universal.exp.direct",
+  "packagerNgrokUrl": "https://packager.tc-4h5.etamity.universal.exp.direct",
+  "ngrokPid": 29857
 }

@@ -14,6 +14,7 @@
 		884DB262BBA04234A131BA1A /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 47181F10A1994FB08161F194 /* SimpleLineIcons.ttf */; };
 		96D20812FD7B4616BBE7E881 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 225A87E507B64723820FF4A7 /* Entypo.ttf */; };
 		98C8BF3A247244FE9D61A288 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B26E288CEFA94C158ABE10C1 /* Zocial.ttf */; };
+		A4FAADAC1FDB726800E69046 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4FAADAB1FDB726800E69046 /* MapKit.framework */; };
 		A80ADBB8B47B4F049CF8A48A /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B85C80D0038B4EDC8845FB29 /* Octicons.ttf */; };
 		B0D9A691FC76467B90783BEE /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1ED1AE16FAE34A138979DE7D /* Ionicons.ttf */; };
 		B501732B1DC01252003445D9 /* EXShell.plist in Resources */ = {isa = PBXBuildFile; fileRef = B501732A1DC01252003445D9 /* EXShell.plist */; };
@@ -41,6 +42,7 @@
 		7B96AE7D72824983A7615763 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		A43208211FD00E7D009F0BE2 /* universal.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = universal.entitlements; sourceTree = "<group>"; };
 		A47FE4D7F70906B7DC8CE39B /* Pods-universal.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-universal.release.xcconfig"; path = "Pods/Target Support Files/Pods-universal/Pods-universal.release.xcconfig"; sourceTree = "<group>"; };
+		A4FAADAB1FDB726800E69046 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		AF23B84791D74B999875E7D0 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		B26E288CEFA94C158ABE10C1 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		B501732A1DC01252003445D9 /* EXShell.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = EXShell.plist; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A4FAADAC1FDB726800E69046 /* MapKit.framework in Frameworks */,
 				EBB8117C1BFA0514F79CAF74 /* libPods-universal.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -79,6 +82,7 @@
 		1A42804E64B7E9E0AB8B6799 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A4FAADAB1FDB726800E69046 /* MapKit.framework */,
 				C4A88D15726AD99E8A257BC7 /* libPods-universal.a */,
 			);
 			name = Frameworks;
@@ -197,7 +201,19 @@
 						DevelopmentTeam = ZC8BPATUV5;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.ApplePay = {
+								enabled = 1;
+							};
+							com.apple.InAppPurchase = {
+								enabled = 0;
+							};
 							com.apple.Keychain = {
+								enabled = 1;
+							};
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+							com.apple.Push = {
 								enabled = 1;
 							};
 						};

@@ -5,6 +5,6 @@
 	<key>EXPO_RUNTIME_VERSION</key>
 	<string>2.1.4</string>
 	<key>developmentUrl</key>
-	<string>exp504ab8f88d434e64a53397650cd96adc://localhost:19000</string>
+	<string>exp504ab8f88d434e64a53397650cd96adc://192.168.31.204:19001</string>
 </dict>
 </plist>
