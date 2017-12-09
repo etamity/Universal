@@ -857,7 +857,6 @@ export default class ParseApp {
 
   loginWithSocial(type) {
     return this._logInWith(type).then((user) => {
-      console.log(typeof user)
       if (!user.existed()) {
         const displayName = user.get('authData')[type].user.name;
         const email = user.get('authData')[type].email;

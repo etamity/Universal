@@ -1,8 +1,8 @@
-import { SafeAreaView, StackNavigator } from 'react-navigation';
+import React, { Component } from 'react'
+import { SafeAreaView, StackNavigator, HeaderBackButton } from 'react-navigation';
 import MainTabScreen from './MainTabScreen';
 import * as StackScreens from './StackScreens';
 import { ApplicationStyles } from '../Themes/'
-
 const screens = Object.keys(StackScreens).reduce((routes, key, index) => {
   const path = index === 0 ? '/' : `/${key.toLowerCase()}`;
   routes[key] = {
@@ -22,6 +22,10 @@ const screens = Object.keys(StackScreens).reduce((routes, key, index) => {
   });
 
 
-const MainStackScreen = StackNavigator(screens);
+const MainStackScreen = StackNavigator(screens, {
+  navigationOptions:({navigation})=> ({
+  })
+});
+
 
 export default MainStackScreen

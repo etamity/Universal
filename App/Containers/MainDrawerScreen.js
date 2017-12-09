@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import { Button, Platform, ScrollView } from 'react-native';
 import { DrawerNavigator } from 'react-navigation';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import MainStackScreen from './MainStackScreen';
-
+import MainModalScreen from './MainModalScreen';
 const MainDrawerScreen = DrawerNavigator({
   MainStackScreen: {
-    screen: MainStackScreen,
+    screen: MainModalScreen,
     navigationOptions: {
       drawerLabel: 'Main',
       drawerIcon: ({ tintColor }) => (

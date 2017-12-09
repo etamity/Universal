@@ -7,17 +7,16 @@ import { StyleSheet } from 'react-native'
 import { ApplicationStyles, Colors } from '../../Themes/'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {ListRow, Label} from 'teaset';
-import { HeaderBackButton } from 'react-navigation';
+
 const styles = StyleSheet.create({
   ...ApplicationStyles.screen
 });
 
-class ProfileScreenClass extends Component {
+class SelectUserScreenClass extends Component {
   static navigationOptions = ({ navigation, screenProps }) => {
       return {
-        tabBarLabel: 'Profile',
-        headerTitle: `${navigation.state.params.displayName}`,
-        
+        tabBarLabel: 'Contacts',
+        headerTitle: `Contacts`,
         // Note: By default the icon is only shown on iOS. Search the showIcon option below.
         tabBarIcon: ({ tintColor, focused }) => (
           <Ionicons
@@ -28,7 +27,9 @@ class ProfileScreenClass extends Component {
         ),
     };
   }
-
+ componentDidMount(){
+     
+ }
   render() {
     return (
       <ScrollView style={styles.container}>
@@ -42,20 +43,6 @@ class ProfileScreenClass extends Component {
             topSeparator="none"
             bottomSeparator="none"
             />
-          <View style={{backgroundColor: Colors.transparent, height:16}}/>
-          <ListRow
-            title='Name' icon={<Ionicons style={{ marginHorizontal: 16 }} size={26} name="md-settings" color={Colors.fire} />}
-            topSeparator="none"
-            accessory="indicator" />
-          <ListRow
-            title='SwapAnt ID' icon={<Ionicons style={{ marginHorizontal: 16 }} size={26} name="md-power" color={Colors.fire} />} bottomSeparator="none"
-            accessory="indicator"/>
-          <ListRow
-            title='Gender' icon={<Ionicons style={{ marginHorizontal: 16 }} size={26} name="md-power" color={Colors.fire} />} bottomSeparator="none"
-            accessory="indicator"/>
-          <ListRow
-            title='Location' icon={<Ionicons style={{ marginHorizontal: 16 }} size={26} name="md-power" color={Colors.fire} />}bottomSeparator="none"
-            accessory="indicator"/>
         </KeyboardAvoidingView>
       </ScrollView>
     )
@@ -73,4 +60,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export const ProfileScreen = connect(mapStateToProps, mapDispatchToProps)(ProfileScreenClass)
+export const SelectUserScreen = connect(mapStateToProps, mapDispatchToProps)(SelectUserScreenClass)

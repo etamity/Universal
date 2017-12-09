@@ -23,49 +23,38 @@ export async function registerForPushNotificationsAsync() {
   if (finalStatus !== 'granted') {
     return;
   }
-
+  PushNotificationIOS.requestPermissions();
   PushNotificationIOS.addEventListener('register', function(token){
-    console.warn('PushNotificationIOS', token);
+    var installationController = Parse.CoreManager.getInstallationController();
+    installationController.currentInstallationId().then(function(iid) {
+      var installation = new Parse.Installation({
+        installationId: iid,
+        deviceToken: token
+        // add any other info, like channels, here
+      });
+     
+      installation.set('deviceType',DeviceInfo.getManufacturer() == 'Apple' ?  "ios" : "android");
+      installation.set('appName',"swapnt")
+      installation.set('channels',['message'])
+      installation.set('appIdentifier', DeviceInfo.getBundleId())
+      installation.set('appVersion',DeviceInfo.getVersion())
+      installation.set('pushType',DeviceInfo.getManufacturer() == 'Apple' ?  "APN" : "GCM")
+      installation.set("deviceManufacturer", DeviceInfo.getManufacturer()); 
+      installation.set("deviceBrand", DeviceInfo.getBrand()); 
+      installation.set("deviceModel", DeviceInfo.getModel()); 
+      installation.set("deviceID", DeviceInfo.getDeviceId()); 
+      installation.set("systemName", DeviceInfo.getSystemName()); 
+      installation.set("systemVersion", DeviceInfo.getSystemVersion()); 
+      installation.set("bundleID", DeviceInfo.getBundleId()); 
+      installation.set("buildNumber", DeviceInfo.getBuildNumber()); 
+      installation.set("deviceName", DeviceInfo.getDeviceName()); 
+      installation.set("userAgent", DeviceInfo.getUserAgent());
+      installation.set("deviceLocale", DeviceInfo.getDeviceLocale());
+      installation.set("deviceCountry", DeviceInfo.getDeviceCountry());
+      return installation.save();
+    }).then(function(installation) {
+
+    }).catch(console.warn)
    });
 
-  console.warn('finalStatus', finalStatus);
-  // Get the token that uniquely identifies this device
-  const [expoToken, deviceToken] = await Promise.all([
-    Notifications.getExpoPushTokenAsync(),
-    Notifications.getDevicePushTokenAsync({ gcmSenderId: '' })
-]);
-  console.warn(deviceToken);
-  console.warn(expoToken);
-
-  var installationController = Parse.CoreManager.getInstallationController();
-  installationController.currentInstallationId().then(function(iid) {
-    var installation = new Parse.Installation({
-      installationId: iid,
-      deviceToken,
-      expoToken
-      // add any other info, like channels, here
-    });
-   
-    installation.set('deviceType',DeviceInfo.getManufacturer() == 'Apple' ?  "ios" : "android");
-    installation.set('appName',"swapnt")
-    installation.set('channels',[])
-    installation.set('appIdentifier', DeviceInfo.getBundleId())
-    installation.set('appVersion',DeviceInfo.getVersion())
-    installation.set('pushType',DeviceInfo.getManufacturer() == 'Apple' ?  "APN" : "GCM")
-    installation.set("deviceManufacturer", DeviceInfo.getManufacturer()); 
-    installation.set("deviceBrand", DeviceInfo.getBrand()); 
-    installation.set("deviceModel", DeviceInfo.getModel()); 
-    installation.set("deviceID", DeviceInfo.getDeviceId()); 
-    installation.set("systemName", DeviceInfo.getSystemName()); 
-    installation.set("systemVersion", DeviceInfo.getSystemVersion()); 
-    installation.set("bundleID", DeviceInfo.getBundleId()); 
-    installation.set("buildNumber", DeviceInfo.getBuildNumber()); 
-    installation.set("deviceName", DeviceInfo.getDeviceName()); 
-    installation.set("userAgent", DeviceInfo.getUserAgent());
-    installation.set("deviceLocale", DeviceInfo.getDeviceLocale());
-    installation.set("deviceCountry", DeviceInfo.getDeviceCountry());
-    return installation.save();
-  }).then(function(installation) {
-    console.warn("installation",installation)
-  }).catch(console.warn)
 }
