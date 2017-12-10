@@ -21,6 +21,14 @@ const screen = Object.keys(ModalScreens).reduce((routes, key, index) => {
     }});
   
   
-  const MainModelScreen = StackNavigator(screen, { headerMode: 'none',
-   mode: 'modal'});
+  const MainModelScreen = StackNavigator(screen, { 
+    mode: 'modal',
+    navigationOptions: (props) => {
+      const { navigation } = props;
+      console.log(props);
+      return {
+        header: navigation.state.params ? navigation.state.params.showHeader : null
+      }
+    }
+  });
   export default MainModelScreen

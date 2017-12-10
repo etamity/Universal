@@ -1,8 +1,8 @@
 {
-  "expoServerPort": 19004,
-  "packagerPort": 19005,
-  "packagerPid": 72764,
+  "expoServerPort": 19003,
+  "packagerPort": 19004,
+  "packagerPid": 39890,
   "expoServerNgrokUrl": "https://zh-5p2.etamity.universal.exp.direct",
   "packagerNgrokUrl": "https://packager.zh-5p2.etamity.universal.exp.direct",
-  "ngrokPid": 72775
+  "ngrokPid": 29857
 }
